@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<tr th:each="item : ${tables}">
+    <td th:text="${item.id}">테이블 ID</td>
+    <td th:text="${item.number}">테이블 번호</td>
+    <td th:text="${item.seats}">테이블 좌석 수</td>
+</tr>
+</body>
+</html>

@@ -15,12 +15,12 @@ public class ReservationController {
 
     private final ReservationService reservationService;
 
-    @GetMapping("/reservation")
-    public String reservationPage(Model model){
+    @GetMapping("/reservations")
+    public String reservationListForm(Model model){
         List<Reservation> reservations = reservationService.findAll();
 
         model.addAttribute("reservations", reservations);
 
-        return "/reservation/reservationForm";
+        return "/reservation/reservationList";
     }
 }

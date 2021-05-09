@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import sogon.booksys.domain.Role;
 import sogon.booksys.dto.SessionUser;
+import sogon.booksys.repository.UserRepository;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 public class HomeController {
 
+    private final UserRepository userRepository;
     private final HttpSession httpSession;
 
     @GetMapping("/")
@@ -19,7 +22,12 @@ public class HomeController {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
         if(user!=null){
             model.addAttribute("userName", user.getName());
+            model.addAttribute("userEmail", user.getEmail());
+
+            Role role = userRepository.findByEmail(user.getEmail()).get().getRole();
+            if(role == Role.ADMIN)
+                model.addAttribute("userRole", role);
         }
-        return "Home";
+        return "home";
     }
 }

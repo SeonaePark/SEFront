@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<tr th:each="item : ${reservations}">
+    <td th:text="${item.id}">예약 ID</td>
+    <td th:text="${item.table.number}">예약테이블 번호</td>
+    <td th:text="${item.covers}">예약인원</td>
+    <td th:text="${item.user.name}">예약한 이용자 이름</td>
+    <td th:text="${item.startTime}">예약시작 시간</td>
+    <td th:text="${item.closeTime}">예약만료 시간</td>
+</tr>
+</body>
+</html>

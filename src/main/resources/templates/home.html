@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -10,7 +10,14 @@
 </li>
 <li th:unless="!${userName}">
     <p th:text="${userName}">사용자 이름</p>
+    <p th:text="${userEmail}">사용자 이메일</p>
     <a href="/logout">로그아웃</a>
+</li>
+<li>
+    <a href="/reservations">예약 현황</a>
+</li>
+<li th:if="${userRole}">
+    <a href="/tables">테이블</a>
 </li>
 </body>
 </html>
