@@ -1,0 +1,119 @@
+package sogon.booksys.service;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import sogon.booksys.domain.User;
+import sogon.booksys.domain.Reservation;
+import sogon.booksys.domain.Table;
+import sogon.booksys.repository.UserRepository;
+import sogon.booksys.repository.ReservationRepository;
+import sogon.booksys.repository.TableRepository;
+
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@Transactional(readOnly = true)
+@RequiredArgsConstructor
+public class ReservationService {
+
+    private final UserRepository userRepository;
+    private final ReservationRepository reservationRepository;
+    private final TableRepository tableRepository;
+
+    @Transactional
+    public Long reserve(Long userId, Long tableId, LocalDateTime time, int term, int userCount){
+        User user = userRepository.findById(userId).get();
+        Table table = tableRepository.findById(tableId).get();
+
+        List<Reservation> allTable = reservationRepository.findAllByTable(table);
+
+        judgeTableCount(userCount, table);
+        judgeDuplicateTime(time, term, allTable);
+
+        Reservation reservation = Reservation.createReservation(user, table, time, term, userCount);
+        reservationRepository.save(reservation);
+        return reservation.getId();
+
+    }
+
+    @Transactional
+    public Long moveTable(Long reservationId, Long newTableId){
+        Reservation reservation = reservationRepository.findById(reservationId).get();
+        LocalDateTime startTime = reservation.getStartTime();
+        LocalDateTime closeTime = reservation.getCloseTime();
+        int term = (int)ChronoUnit.MINUTES.between(startTime, closeTime);
+
+        Table newTable = tableRepository.findById(newTableId).get();
+        List<Reservation> allTable = reservationRepository.findAllByTable(newTable);
+
+        judgeTableCount(reservation.getCovers(), newTable);
+        judgeDuplicateTime(startTime, term, allTable);
+
+        reservation.setTable(newTable);
+        Reservation savedReservation = reservationRepository.save(reservation);
+
+        return savedReservation.getId();
+    }
+
+    @Transactional
+    public Long updateReservation(Long reservationId, LocalDateTime time, int term, int userCount){
+        Reservation reservation = reservationRepository.findById(reservationId).get();
+        Table table = reservation.getTable();
+
+        List<Reservation> allTable = reservationRepository.findAllByTable(table);
+
+        judgeTableCount(userCount, table);
+        judgeDuplicateTime(time, term, allTable);
+
+        reservation.setStartTime(time);
+        reservation.setCloseTime(time.plusMinutes(term));
+        reservation.setCovers(userCount);
+        Reservation save = reservationRepository.save(reservation);
+
+        return save.getId();
+    }
+
+    @Transactional
+    public void cancelReservation(Long reservationId){
+        Optional<Reservation> reservation = reservationRepository.findById(reservationId);
+        reservationRepository.delete(reservation.get());
+    }
+
+    public List<Reservation> findAllByTable(Table table){
+        return reservationRepository.findAllByTable(table);
+    }
+
+    public Optional<Reservation> findById(Long reservationId){
+        return reservationRepository.findById(reservationId);
+    }
+
+    public List<Reservation> findAll(){
+        return reservationRepository.findAll();
+    }
+
+    //테이블 좌석수 확인
+    private void judgeTableCount(int userCount, Table table) {
+        if(!table.canReserve(userCount)) {
+            throw new IllegalStateException("테이블의 좌석 수가 예약하려는 인원수보다 적습니다.");
+        }
+    }
+
+    //예약 시간이 겹치는지 확인
+    private void judgeDuplicateTime(LocalDateTime time, int term, List<Reservation> allTable) {
+        for (Reservation reservation : allTable) {
+            LocalDateTime arrivalTime = reservation.getStartTime();
+            LocalDateTime closeTime = reservation.getCloseTime();
+
+            if(time.isAfter(arrivalTime) && time.isBefore(closeTime)){
+                throw new IllegalStateException("이미 예약된 시간입니다.");
+            } else if(time.plusMinutes(term).isAfter(arrivalTime) && time.plusMinutes(term).isBefore(closeTime)){
+                throw new IllegalStateException("이미 예약된 시간입니다.");
+            }
+        }
+    }
+
+}
