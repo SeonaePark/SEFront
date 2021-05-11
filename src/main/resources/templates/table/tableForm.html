@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+  .fieldError {
+    border-color: #bd2130;
+  }
+</style>
+<body>
+<form role="form" action="/table" th:object="${tableDto}" method="post">
+  <div class="form-group">
+    <label th:for="number">테이블 번호</label>
+    <input type="text" th:field="*{number}" class="form-control" placeholder="테이블 번호를 입력하세요."
+           th:class="${#fields.hasErrors('number')}? 'form-control fieldError' : 'form-control'">
+    <p th:if="${#fields.hasErrors('number')}" th:errors="*{number}">입력값이 없음</p>
+  </div>
+  <div class="form-group">
+    <label th:for="seats">테이블 좌석</label>
+    <input type="text" th:field="*{seats}" class="form-control" placeholder="테이블 좌석 수를 입력하세요."
+           th:class="${#fields.hasErrors('seats')}? 'form-control fieldError' : 'form-control'">
+    <p th:if="${#fields.hasErrors('seats')}" th:errors="*{seats}">입력값이 없음</p>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</body>
+</html>

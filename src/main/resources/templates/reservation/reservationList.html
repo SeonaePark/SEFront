@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <tr th:each="item : ${reservations}">
@@ -12,6 +13,8 @@
     <td th:text="${item.user.name}">예약한 이용자 이름</td>
     <td th:text="${item.startTime}">예약시작 시간</td>
     <td th:text="${item.closeTime}">예약만료 시간</td>
+    <br/>
 </tr>
+<a href="/">홈으로 돌아가기</a>
 </body>
 </html>

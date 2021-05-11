@@ -2,13 +2,29 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<tr th:each="item : ${tables}">
-    <td th:text="${item.id}">테이블 ID</td>
-    <td th:text="${item.number}">테이블 번호</td>
-    <td th:text="${item.seats}">테이블 좌석 수</td>
-</tr>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>테이블 번호</th>
+        <th>테이블 좌석 수</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${tables}">
+        <td th:text="${item.number}">테이블 번호</td>
+        <td th:text="${item.seats}">테이블 좌석 수</td>
+        <br />
+    </tr>
+    </tbody>
+</table>
+<a href="/table">테이블 등록</a>
+<br />
+<a href="/">홈으로 돌아가기</a>
 </body>
 </html>
