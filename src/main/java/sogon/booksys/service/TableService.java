@@ -22,6 +22,15 @@ public class TableService {
         return tableRepository.save(table);
     }
 
+    @Transactional
+    public void delete(Table table){
+        tableRepository.delete(table);
+    }
+
+    public Optional<Table> findById(Long tableId){
+        return tableRepository.findById(tableId);
+    }
+
     public Optional<Table> findByNumber(int number){
         return tableRepository.findByNumber(number);
     }

@@ -19,12 +19,28 @@
     <tr th:each="item : ${tables}">
         <td th:text="${item.number}">테이블 번호</td>
         <td th:text="${item.seats}">테이블 좌석 수</td>
-        <br />
+        <td>
+            <a href="#" th:href="@{/tables/{id}/edit (id=${item.id})}"
+               class="btn btn-primary" role="button">수정</a>
+        </td>
+        <td>
+            <a href="#" th:href="'javascript:cancel('+${item.id}+')'"
+               class="btn btn-danger" role="button">삭제</a>
+        </td>
     </tr>
     </tbody>
 </table>
-<a href="/table">테이블 등록</a>
+<a href="/tables/new">테이블 등록</a>
 <br />
 <a href="/">홈으로 돌아가기</a>
 </body>
+<script>
+    function cancel(id) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "/tables/" + id + "/delete");
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
 </html>

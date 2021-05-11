@@ -36,6 +36,11 @@ public class Table {
         this.seats = seats;
     }
 
+    public Table update(int seats){
+        this.seats = seats;
+        return this;
+    }
+
     //비즈니스 로직
     //테이블에 앉을수 있는 사람 수 보다 예약한 인원수가 많은지를 체크
     public boolean canReserve(int userCount){

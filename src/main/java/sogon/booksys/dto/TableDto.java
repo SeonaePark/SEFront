@@ -9,6 +9,8 @@ import javax.validation.constraints.NotNull;
 @Getter @Setter
 public class TableDto {
 
+    private Long id;
+
     @Min(value = 0, message = "최소 0 이상 입력해주세요.")
     private int number;
 
