@@ -41,14 +41,14 @@ public class User {
         this.role = role;
     }
 
-    public User update(String name, String picture){
-        this.name = name;
+    public User update(String picture){
         this.picture = picture;
 
         return this;
     }
 
-    public User update(String phoneNumber){
+    public User update(String name, String phoneNumber){
+        this.name = name;
         this.phoneNumber = phoneNumber;
 
         return this;

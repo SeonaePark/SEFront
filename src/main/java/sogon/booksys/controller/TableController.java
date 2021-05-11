@@ -34,13 +34,13 @@ public class TableController {
     public String createForm(Model model){
         TableDto tableDto = new TableDto();
         model.addAttribute(tableDto);
-        return "/table/tableForm";
+        return "/table/createTableForm";
     }
 
     @PostMapping("/tables/new")
     public String create(@Valid TableDto tableDto, BindingResult result){
         if(result.hasErrors()){
-            return "/table/tableForm";
+            return "/table/createTableForm";
         }
 
         Table table = Table.builder()
@@ -51,7 +51,7 @@ public class TableController {
             tableService.save(table);
         }catch (Exception e){
             result.rejectValue("number", "fieldError", "중복된 테이블 번호입니다.");
-            return "/table/tableForm";
+            return "/table/createTableForm";
         }
 
         return "redirect:/tables";

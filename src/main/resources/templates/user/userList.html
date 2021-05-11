@@ -9,18 +9,28 @@
 <table class="table table-striped">
     <thead>
     <tr>
-        <th>테이블 번호</th>
-        <th>테이블 좌석 수</th>
+        <th>프로필사진</th>
+        <th>유저 ID</th>
+        <th>이름</th>
+        <th>이메일</th>
+        <th>휴대폰 번호</th>
+        <th>권한</th>
         <th></th>
         <th></th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="item : ${tables}">
-        <td th:text="${item.number}">테이블 번호</td>
-        <td th:text="${item.seats}">테이블 좌석 수</td>
+    <tr th:each="item : ${users}">
         <td>
-            <a href="#" th:href="@{/tables/{id}/edit (id=${item.id})}"
+            <img th:src="${item.picture}" />
+        </td>
+        <td th:text="${item.id}">유저 ID</td>
+        <td th:text="${item.name}">이름</td>
+        <td th:text="${item.email}">이메일</td>
+        <td th:text="${item.phoneNumber}">휴대폰 번호</td>
+        <td th:text="${item.role}">권한</td>
+        <td>
+            <a href="#" th:href="@{/users/{id}/edit (id=${item.id})}"
                class="btn btn-primary" role="button">수정</a>
         </td>
         <td>
@@ -30,15 +40,13 @@
     </tr>
     </tbody>
 </table>
-<a href="/tables/new">테이블 등록</a>
-<br />
 <a href="/">홈으로 돌아가기</a>
 </body>
 <script>
     function cancel(id) {
         var form = document.createElement("form");
         form.setAttribute("method", "post");
-        form.setAttribute("action", "/tables/" + id + "/delete");
+        form.setAttribute("action", "/users/" + id + "/delete");
         document.body.appendChild(form);
         form.submit();
     }
