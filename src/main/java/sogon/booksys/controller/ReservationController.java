@@ -82,10 +82,10 @@ public class ReservationController {
             reservationService.reserve(user.getId(), tableId, reservation.getStartTime(),
                     reservation.getCloseTime(), reservation.getCovers());
         }catch (DuplicateReserveException e){
-            result.rejectValue("startTime", "fieldError", "이미 예약된 시간입니다.");
+            result.rejectValue("startTime", "fieldError", e.getMessage());
             return "/reservation/createReservationForm";
         }catch (SeatExcessException e){
-            result.rejectValue("covers", "fieldError", "예약 가능 인원을 초과했습니다.");
+            result.rejectValue("covers", "fieldError", e.getMessage());
             return "/reservation/createReservationForm";
         }
 

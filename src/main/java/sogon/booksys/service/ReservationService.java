@@ -131,6 +131,8 @@ public class ReservationService {
                 throw new DuplicateReserveException("이미 예약된 시간입니다.");
             } else if(time.plusMinutes(term).isAfter(arrivalTime) && time.plusMinutes(term).isBefore(closeTime)){
                 throw new DuplicateReserveException("이미 예약된 시간입니다.");
+            } else if(time.isBefore(arrivalTime) && time.plusMinutes(term).isAfter(closeTime)){
+                throw new DuplicateReserveException("이미 예약된 시간을 포함하고 있습니다.");
             }
         }
     }
