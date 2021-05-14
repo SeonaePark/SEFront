@@ -10,22 +10,22 @@
   <div class="form-group">
     <label th:for="picture">프로필사진</label>
     <input type="hidden" th:field="*{picture}">
-    <img th:src="${user.picture}" />
+    <img th:src="*{picture}" />
   </div>
   <div class="form-group">
     <label th:for="id">유저 ID</label>
     <input type="hidden" th:field="*{id}">
-    <p th:text="${user.id}" />
+    <p th:text="*{id}" />
   </div>
   <div class="form-group">
     <label th:for="email">이메일</label>
     <input type="hidden" th:field="*{email}">
-    <p th:text="${user.email}" />
+    <p th:text="*{email}" />
   </div>
   <div class="form-group">
     <label th:for="role">권한</label>
     <input type="hidden" th:field="*{role}">
-    <p th:text="${user.role}" />
+    <p th:text="*{role}" />
   </div>
   <div class="form-group">
     <label th:for="name">이름</label>

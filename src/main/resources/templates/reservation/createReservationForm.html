@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link th:href="@{/css/bootstrap.min.css}"
+        href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+  <form role="form" action="/reservations/new" method="post">
+    <div class="form-group" th:object="${user}">
+      <p th:text="*{email}">유저 이메일</p>
+      <p th:text="*{name}">유저 이름</p>
+      <input type="hidden" th:field="*{id}">
+      <input type="hidden" th:field="*{name}">
+      <input type="hidden" th:field="*{email}">
+    </div>
+    <div class="form-group">
+      <label for="table">예약할 테이블</label>
+      <select name="tableId" id="table" class="form-control">
+        <option value="">테이블 선택</option>
+        <option th:each="table : ${tables}"
+                th:value="${table.id}"
+                th:text="${table.number}" />
+      </select>
+    </div>
+    <div class="form-group" th:object="${reservation}">
+      <label th:for="covers">예약 인원</label>
+      <input type="number" th:field="*{covers}" class="form-control" placeholder="예약 인원을 입력하세요"
+             th:class="${#fields.hasErrors('covers')}? 'form-control fieldError' : 'form-control'" />
+      <p th:if="${#fields.hasErrors('covers')}" th:errors="*{covers}">잘못된 입력값이 들어올때</p>
+    </div>
+    <div class="form-group" th:object="${reservation}">
+      <label th:for="startTime">예약 시간</label>
+      <input type="datetime-local" th:field="*{startTime}" class="form-control" placeholder="예약 시간을 입력하세요"
+             th:class="${#fields.hasErrors('startTime')}? 'form-control fieldError' : 'form-control'" />
+      <p th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}">잘못된 입력값이 들어올때</p>
+    </div>
+    <div class="form-group" th:object="${reservation}">
+      <label th:for="term">몇분 예약할지 입력해주세요.</label>
+      <input type="number" th:field="*{term}" class="form-control" placeholder="예약을 몇분 할지 입력하세요"
+             th:class="${#fields.hasErrors('term')}? 'form-control fieldError' : 'form-control'" />
+      <p th:if="${#fields.hasErrors('term')}" th:errors="*{term}">잘못된 입력값이 들어올때</p>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  <br/>
+  <a href="/reservations">예약현황으로 돌아가기</a>
+</div> <!-- /container -->
+</body>
+</html>

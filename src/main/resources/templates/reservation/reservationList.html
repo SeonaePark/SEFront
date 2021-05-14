@@ -6,15 +6,49 @@
           href="../css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<tr th:each="item : ${reservations}">
-    <td th:text="${item.id}">예약 ID</td>
-    <td th:text="${item.table.number}">예약테이블 번호</td>
-    <td th:text="${item.covers}">예약인원</td>
-    <td th:text="${item.user.name}">예약한 이용자 이름</td>
-    <td th:text="${item.startTime}">예약시작 시간</td>
-    <td th:text="${item.closeTime}">예약만료 시간</td>
-    <br/>
-</tr>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>예약 ID</th>
+            <th>예약테이블 번호</th>
+            <th>예약인원</th>
+            <th>예약한 이용자 이름</th>
+            <th>예약시작 시간</th>
+            <th>예약만료 시간</th>
+            <th>수정</th>
+            <th>삭제</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="item : ${reservations}">
+            <td th:text="${item.id}">예약 ID</td>
+            <td th:text="${item.table.number}">예약테이블 번호</td>
+            <td th:text="${item.covers}">예약인원</td>
+            <td th:text="${item.user.name}">예약한 이용자 이름</td>
+            <td th:text="${item.startTime}">예약시작 시간</td>
+            <td th:text="${item.closeTime}">예약만료 시간</td>
+            <td th:if="${item.user.name} == ${userEmail}">
+                <a href="#" th:href="@{/reservations/{id}/edit (id=${item.id})}"
+                   class="btn btn-primary" role="button">수정</a>
+            </td>
+            <td th:if="${item.user.name} == ${userEmail}">
+                <a href="#" th:href="'javascript:cancel('+${item.id}+')'"
+                   class="btn btn-danger" role="button">삭제</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<a href="/reservations/new">예약하기</a>
+<br />
 <a href="/">홈으로 돌아가기</a>
 </body>
+<script>
+    function cancel(id) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "/tables/" + id + "/delete");
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
 </html>

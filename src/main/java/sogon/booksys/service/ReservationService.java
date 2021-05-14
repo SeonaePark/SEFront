@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import sogon.booksys.domain.User;
 import sogon.booksys.domain.Reservation;
 import sogon.booksys.domain.Table;
+import sogon.booksys.exception.DuplicateReserveException;
+import sogon.booksys.exception.SeatExcessException;
 import sogon.booksys.repository.UserRepository;
 import sogon.booksys.repository.ReservationRepository;
 import sogon.booksys.repository.TableRepository;
@@ -24,6 +26,7 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final TableRepository tableRepository;
 
+    //예약 (시작 시간과 몇분예약할지를 인자로 받음)
     @Transactional
     public Long reserve(Long userId, Long tableId, LocalDateTime time, int term, int userCount){
         User user = userRepository.findById(userId).get();
@@ -37,7 +40,23 @@ public class ReservationService {
         Reservation reservation = Reservation.createReservation(user, table, time, term, userCount);
         reservationRepository.save(reservation);
         return reservation.getId();
+    }
 
+    //예약 (시작 시간과 끝나는 시간을 인자로 받음)
+    @Transactional
+    public Long reserve(Long userId, Long tableId, LocalDateTime startTime, LocalDateTime closeTime, int userCount){
+        User user = userRepository.findById(userId).get();
+        Table table = tableRepository.findById(tableId).get();
+        int term = (int) ChronoUnit.MINUTES.between(startTime, closeTime);
+
+        List<Reservation> allTable = reservationRepository.findAllByTable(table);
+
+        judgeTableCount(userCount, table);
+        judgeDuplicateTime(startTime, term, allTable);
+
+        Reservation reservation = Reservation.createReservation(user, table, startTime, term, userCount);
+        reservationRepository.save(reservation);
+        return reservation.getId();
     }
 
     @Transactional
@@ -98,7 +117,7 @@ public class ReservationService {
     //테이블 좌석수 확인
     private void judgeTableCount(int userCount, Table table) {
         if(!table.canReserve(userCount)) {
-            throw new IllegalStateException("테이블의 좌석 수가 예약하려는 인원수보다 적습니다.");
+            throw new SeatExcessException("테이블의 좌석 수가 예약하려는 인원수보다 적습니다.");
         }
     }
 
@@ -109,9 +128,9 @@ public class ReservationService {
             LocalDateTime closeTime = reservation.getCloseTime();
 
             if(time.isAfter(arrivalTime) && time.isBefore(closeTime)){
-                throw new IllegalStateException("이미 예약된 시간입니다.");
+                throw new DuplicateReserveException("이미 예약된 시간입니다.");
             } else if(time.plusMinutes(term).isAfter(arrivalTime) && time.plusMinutes(term).isBefore(closeTime)){
-                throw new IllegalStateException("이미 예약된 시간입니다.");
+                throw new DuplicateReserveException("이미 예약된 시간입니다.");
             }
         }
     }

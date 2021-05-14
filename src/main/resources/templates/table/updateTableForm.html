@@ -10,7 +10,7 @@
   <div class="form-group">
     <label th:for="number">테이블 번호</label>
     <input type="hidden" th:field="*{number}">
-    <p th:text="${table.number}" />
+    <p th:text="*{number}" />
   </div>
   <div class="form-group">
     <label th:for="seats">테이블 좌석 수</label>
