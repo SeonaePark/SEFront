@@ -1,6 +1,7 @@
 package sogon.booksys.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class HomeController {
 
     private final UserRepository userRepository;
@@ -25,6 +27,7 @@ public class HomeController {
             model.addAttribute("userEmail", user.getEmail());
 
             Role role = userRepository.findByEmail(user.getEmail()).get().getRole();
+            log.info("Role = {}", role);
             if(role == Role.ADMIN)
                 model.addAttribute("userRole", role);
         }
