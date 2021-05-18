@@ -6,6 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import sogon.booksys.domain.WalkIn;
 import sogon.booksys.domain.Table;
+import sogon.booksys.exception.DuplicateReserveException;
+import sogon.booksys.exception.SeatExcessException;
 import sogon.booksys.repository.TableRepository;
 
 import java.time.LocalDateTime;
@@ -25,11 +27,9 @@ class WalkInServiceTest {
     @Test
     void 예약_테스트(){
         //given
-        Table table = new Table();
+        Table table = Table.builder().number(1).seats(4).build();
         LocalDateTime time = LocalDateTime.now();
         int term = 30;
-
-        table.setSeats(4);
 
         //when
         tableRepository.save(table);
@@ -43,47 +43,41 @@ class WalkInServiceTest {
     @Test
     void 같은시간_예약(){
         //given
-        Table table = new Table();
+        Table table = Table.builder().number(1).seats(4).build();
         LocalDateTime time1 = LocalDateTime.of(2021,1,30,12,30);
         LocalDateTime time2 = LocalDateTime.of(2021,1,30,12,40);
         int term = 30;
-
-        table.setSeats(4);
 
         //when
         tableRepository.save(table);
         walkInService.walkIn(table.getId(), time1, term, 4);
 
         //then
-        assertThrows(IllegalStateException.class,
+        assertThrows(DuplicateReserveException.class,
                 ()->{walkInService.walkIn(table.getId(), time2, term, 4);});
     }
 
     @Test
     void 인원초과_예약() {
         //given
-        Table table = new Table();
+        Table table = Table.builder().number(1).seats(4).build();
         LocalDateTime time = LocalDateTime.now();
         int term = 30;
-
-        table.setSeats(4);
 
         //when
         tableRepository.save(table);
 
         //then
-        assertThrows(IllegalStateException.class,
+        assertThrows(SeatExcessException.class,
                 ()->{walkInService.walkIn(table.getId(), time, term, 5);});
     }
 
     @Test
     void 예약취소_테스트(){
         //given
-        Table table = new Table();
+        Table table = Table.builder().number(1).seats(4).build();
         LocalDateTime time = LocalDateTime.now();
         int term = 30;
-
-        table.setSeats(4);
 
         //when
         tableRepository.save(table);
@@ -100,11 +94,9 @@ class WalkInServiceTest {
     @Test
     void findByTable_테스트(){
         //given
-        Table table = new Table();
+        Table table = Table.builder().number(1).seats(4).build();
         LocalDateTime time = LocalDateTime.now();
         int term = 30;
-
-        table.setSeats(4);
 
         //when
         tableRepository.save(table);
@@ -119,13 +111,10 @@ class WalkInServiceTest {
     @Test
     void 예약테이블_변경_테스트(){
         //given
-        Table table1 = new Table();
-        Table table2 = new Table();
+        Table table1 = Table.builder().number(1).seats(4).build();
+        Table table2 = Table.builder().number(2).seats(5).build();
         LocalDateTime time = LocalDateTime.now();
         int term = 30;
-
-        table1.setSeats(4);
-        table2.setSeats(5);
 
         //when
         tableRepository.save(table1);
@@ -143,13 +132,10 @@ class WalkInServiceTest {
     @Test
     void 예약테이블_변경_인원초과_테스트(){
         //given
-        Table table1 = new Table();
-        Table table2 = new Table();
+        Table table1 = Table.builder().number(1).seats(5).build();
+        Table table2 = Table.builder().number(2).seats(4).build();
         LocalDateTime time = LocalDateTime.now();
         int term = 30;
-
-        table1.setSeats(5);
-        table2.setSeats(4);
 
         //when
         tableRepository.save(table1);
@@ -157,19 +143,16 @@ class WalkInServiceTest {
         Long walkInId = walkInService.walkIn(table1.getId(), time, term, 5);
 
         //then
-        assertThrows(IllegalStateException.class, ()->{walkInService.moveTable(walkInId, table2.getId());});
+        assertThrows(SeatExcessException.class, ()->{walkInService.moveTable(walkInId, table2.getId());});
     }
 
     @Test
     void 예약테이블_변경_같은시간_테스트(){
-        Table table1 = new Table();
-        Table table2 = new Table();
+        Table table1 = Table.builder().number(1).seats(4).build();
+        Table table2 = Table.builder().number(2).seats(5).build();
         LocalDateTime time1 = LocalDateTime.of(2021,1,30,12,30);
         LocalDateTime time2 = LocalDateTime.of(2021,1,30,12,40);
         int term = 30;
-
-        table1.setSeats(4);
-        table2.setSeats(5);
 
         //when
         tableRepository.save(table1);
@@ -178,18 +161,16 @@ class WalkInServiceTest {
         walkInService.walkIn(table2.getId(), time2, term, 4);
 
         //then
-        assertThrows(IllegalStateException.class, ()->{walkInService.moveTable(walkInId, table2.getId());});
+        assertThrows(DuplicateReserveException.class, ()->{walkInService.moveTable(walkInId, table2.getId());});
     }
 
     @Test
     void 예약_변경_테스트(){
         //given
-        Table table = new Table();
+        Table table = Table.builder().number(1).seats(4).build();
         LocalDateTime time1 = LocalDateTime.of(2021,1,30,12,30);
         LocalDateTime time2 = LocalDateTime.of(2021,2,1,12,30);
         int term = 30;
-
-        table.setSeats(4);
 
         //when
         tableRepository.save(table);
@@ -204,37 +185,33 @@ class WalkInServiceTest {
     @Test
     void 예약_변경_같은시간_테스트(){
         //given
-        Table table = new Table();
+        Table table = Table.builder().number(1).seats(4).build();
         LocalDateTime time1 = LocalDateTime.of(2021,1,30,12,30);
         LocalDateTime time2 = LocalDateTime.of(2021,1,30,12,40);
         int term = 30;
-
-        table.setSeats(4);
 
         //when
         tableRepository.save(table);
         Long walkInId = walkInService.walkIn(table.getId(), time1, term, 4);
 
         //then
-        assertThrows(IllegalStateException.class, ()->{walkInService.updateWalkIn(walkInId, time2, term, 3);});
+        assertThrows(DuplicateReserveException.class, ()->{walkInService.updateWalkIn(walkInId, time2, term, 3);});
     }
 
     @Test
     void 예약_변경_인원초과_테스트(){
         //given
-        Table table = new Table();
+        Table table = Table.builder().number(1).seats(4).build();
         LocalDateTime time1 = LocalDateTime.of(2021,1,30,12,30);
         LocalDateTime time2 = LocalDateTime.of(2021,2,1,12,40);
         int term = 30;
-
-        table.setSeats(4);
 
         //when
         tableRepository.save(table);
         Long walkInId = walkInService.walkIn(table.getId(), time1, term, 4);
 
         //then
-        assertThrows(IllegalStateException.class, ()->{walkInService.updateWalkIn(walkInId, time2, term, 5);});
+        assertThrows(SeatExcessException.class, ()->{walkInService.updateWalkIn(walkInId, time2, term, 5);});
     }
 
 }

@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sogon.booksys.domain.Table;
 import sogon.booksys.domain.WalkIn;
+import sogon.booksys.exception.DuplicateReserveException;
+import sogon.booksys.exception.SeatExcessException;
 import sogon.booksys.repository.TableRepository;
 import sogon.booksys.repository.WalkInRepository;
 
@@ -94,7 +96,7 @@ public class WalkInService {
     //테이블 좌석수 확인
     private void judgeTableCount(int userCount, Table table) {
         if(!table.canReserve(userCount)) {
-            throw new IllegalStateException("테이블의 좌석 수가 예약하려는 인원수보다 적습니다.");
+            throw new SeatExcessException("테이블의 좌석 수가 예약하려는 인원수보다 적습니다.");
         }
     }
 
@@ -105,9 +107,11 @@ public class WalkInService {
             LocalDateTime closeTime = walkIn.getCloseTime();
 
             if(time.isAfter(arrivalTime) && time.isBefore(closeTime)){
-                throw new IllegalStateException("이미 예약된 시간입니다.");
+                throw new DuplicateReserveException("이미 예약된 시간입니다.");
             } else if(time.plusMinutes(term).isAfter(arrivalTime) && time.plusMinutes(term).isBefore(closeTime)){
-                throw new IllegalStateException("이미 예약된 시간입니다.");
+                throw new DuplicateReserveException("이미 예약된 시간입니다.");
+            } else if(time.isBefore(arrivalTime) && time.plusMinutes(term).isAfter(closeTime)){
+                throw new DuplicateReserveException("이미 예약된 시간을 포함하고 있습니다.");
             }
         }
     }

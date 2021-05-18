@@ -35,13 +35,12 @@ public class AdminController {
         }
 
         log.info("for end");
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
-        User update = userRepository.findByEmail(user.getEmail()).get().update(Role.ADMIN);
-        userRepository.save(update);
+        SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
+        User user = userRepository.findByEmail(sessionUser.getEmail()).get();
 
-        authService.updateAdmin();
+        authService.updateAdmin(user);
 
-        model.addAttribute("userEmail", update.getEmail());
+        model.addAttribute("userEmail", user.getEmail());
 
         return "/admin/adminSuccess";
     }

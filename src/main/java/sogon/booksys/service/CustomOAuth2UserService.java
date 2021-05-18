@@ -59,14 +59,16 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         return userRepository.save(user);
     }
 
-    public void updateAdmin(){
+    public User updateAdmin(User user){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         List<GrantedAuthority> updatedAuthorities = new ArrayList<>(auth.getAuthorities());
         updatedAuthorities.add(new SimpleGrantedAuthority(Role.ADMIN.getKey()));
-
         Authentication updatedAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(),
                 updatedAuthorities);
 
         SecurityContextHolder.getContext().setAuthentication(updatedAuth);
+
+        user.update(Role.ADMIN);
+        return userRepository.save(user);
     }
 }

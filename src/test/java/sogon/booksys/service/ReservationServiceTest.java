@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import sogon.booksys.domain.User;
 import sogon.booksys.domain.Reservation;
 import sogon.booksys.domain.Table;
+import sogon.booksys.exception.DuplicateReserveException;
+import sogon.booksys.exception.SeatExcessException;
 import sogon.booksys.repository.UserRepository;
 import sogon.booksys.repository.TableRepository;
 
@@ -30,11 +32,9 @@ class ReservationServiceTest {
     void 예약_테스트(){
         //given
         User user = new User();
-        Table table = new Table();
+        Table table = Table.builder().number(1).seats(4).build();
         LocalDateTime time = LocalDateTime.now();
         int term = 30;
-
-        table.setSeats(4);
 
         //when
         userRepository.save(user);
@@ -50,12 +50,10 @@ class ReservationServiceTest {
     void 같은시간_예약(){
         //given
         User user = new User();
-        Table table = new Table();
+        Table table = Table.builder().number(1).seats(4).build();
         LocalDateTime time1 = LocalDateTime.of(2021,1,30,12,30);
         LocalDateTime time2 = LocalDateTime.of(2021,1,30,12,40);
         int term = 30;
-
-        table.setSeats(4);
 
         //when
         userRepository.save(user);
@@ -63,7 +61,7 @@ class ReservationServiceTest {
         reservationService.reserve(user.getId(), table.getId(), time1, term, 4);
 
         //then
-        assertThrows(IllegalStateException.class,
+        assertThrows(DuplicateReserveException.class,
                 ()->{reservationService.reserve(user.getId(), table.getId(), time2, term, 4);});
     }
 
@@ -71,18 +69,16 @@ class ReservationServiceTest {
     void 인원초과_예약() {
         //given
         User user = new User();
-        Table table = new Table();
+        Table table = Table.builder().number(1).seats(4).build();
         LocalDateTime time = LocalDateTime.now();
         int term = 30;
-
-        table.setSeats(4);
 
         //when
         userRepository.save(user);
         tableRepository.save(table);
 
         //then
-        assertThrows(IllegalStateException.class,
+        assertThrows(SeatExcessException.class,
                 ()->{reservationService.reserve(user.getId(), table.getId(), time, term, 5);});
     }
 
@@ -90,11 +86,9 @@ class ReservationServiceTest {
     void 예약취소_테스트(){
         //given
         User user = new User();
-        Table table = new Table();
+        Table table = Table.builder().number(1).seats(4).build();
         LocalDateTime time = LocalDateTime.now();
         int term = 30;
-
-        table.setSeats(4);
 
         //when
         userRepository.save(user);
@@ -113,11 +107,9 @@ class ReservationServiceTest {
     void findByTable_테스트(){
         //given
         User user = new User();
-        Table table = new Table();
+        Table table = Table.builder().number(1).seats(4).build();
         LocalDateTime time = LocalDateTime.now();
         int term = 30;
-
-        table.setSeats(4);
 
         //when
         userRepository.save(user);
@@ -134,13 +126,10 @@ class ReservationServiceTest {
     void 예약테이블_변경_테스트(){
         //given
         User user = new User();
-        Table table1 = new Table();
-        Table table2 = new Table();
+        Table table1 = Table.builder().number(1).seats(4).build();
+        Table table2 = Table.builder().number(2).seats(5).build();
         LocalDateTime time = LocalDateTime.now();
         int term = 30;
-
-        table1.setSeats(4);
-        table2.setSeats(5);
 
         //when
         userRepository.save(user);
@@ -160,13 +149,10 @@ class ReservationServiceTest {
     void 예약테이블_변경_인원초과_테스트(){
         //given
         User user = new User();
-        Table table1 = new Table();
-        Table table2 = new Table();
+        Table table1 = Table.builder().number(1).seats(5).build();
+        Table table2 = Table.builder().number(2).seats(4).build();
         LocalDateTime time = LocalDateTime.now();
         int term = 30;
-
-        table1.setSeats(5);
-        table2.setSeats(4);
 
         //when
         userRepository.save(user);
@@ -175,20 +161,17 @@ class ReservationServiceTest {
         Long reserveId = reservationService.reserve(user.getId(), table1.getId(), time, term, 5);
 
         //then
-        assertThrows(IllegalStateException.class, ()->{reservationService.moveTable(reserveId, table2.getId());});
+        assertThrows(SeatExcessException.class, ()->{reservationService.moveTable(reserveId, table2.getId());});
     }
 
     @Test
     void 예약테이블_변경_같은시간_테스트(){
         User user = new User();
-        Table table1 = new Table();
-        Table table2 = new Table();
+        Table table1 = Table.builder().number(1).seats(4).build();
+        Table table2 = Table.builder().number(2).seats(5).build();
         LocalDateTime time1 = LocalDateTime.of(2021,1,30,12,30);
         LocalDateTime time2 = LocalDateTime.of(2021,1,30,12,40);
         int term = 30;
-
-        table1.setSeats(4);
-        table2.setSeats(5);
 
         //when
         userRepository.save(user);
@@ -198,19 +181,17 @@ class ReservationServiceTest {
         reservationService.reserve(user.getId(), table2.getId(), time2, term, 4);
 
         //then
-        assertThrows(IllegalStateException.class, ()->{reservationService.moveTable(reserveId, table2.getId());});
+        assertThrows(DuplicateReserveException.class, ()->{reservationService.moveTable(reserveId, table2.getId());});
     }
 
     @Test
     void 예약_변경_테스트(){
         //given
         User user = new User();
-        Table table = new Table();
+        Table table = Table.builder().number(1).seats(4).build();
         LocalDateTime time1 = LocalDateTime.of(2021,1,30,12,30);
         LocalDateTime time2 = LocalDateTime.of(2021,2,1,12,30);
         int term = 30;
-
-        table.setSeats(4);
 
         //when
         userRepository.save(user);
@@ -227,12 +208,10 @@ class ReservationServiceTest {
     void 예약_변경_같은시간_테스트(){
         //given
         User user = new User();
-        Table table = new Table();
+        Table table = Table.builder().number(1).seats(4).build();
         LocalDateTime time1 = LocalDateTime.of(2021,1,30,12,30);
         LocalDateTime time2 = LocalDateTime.of(2021,1,30,12,40);
         int term = 30;
-
-        table.setSeats(4);
 
         //when
         userRepository.save(user);
@@ -240,19 +219,17 @@ class ReservationServiceTest {
         Long reserveId = reservationService.reserve(user.getId(), table.getId(), time1, term, 4);
 
         //then
-        assertThrows(IllegalStateException.class, ()->{reservationService.updateReservation(reserveId, time2, term, 3);});
+        assertThrows(DuplicateReserveException.class, ()->{reservationService.updateReservation(reserveId, time2, term, 3);});
     }
 
     @Test
     void 예약_변경_인원초과_테스트(){
         //given
         User user = new User();
-        Table table = new Table();
+        Table table = Table.builder().number(1).seats(4).build();
         LocalDateTime time1 = LocalDateTime.of(2021,1,30,12,30);
         LocalDateTime time2 = LocalDateTime.of(2021,2,1,12,40);
         int term = 30;
-
-        table.setSeats(4);
 
         //when
         userRepository.save(user);
@@ -260,7 +237,7 @@ class ReservationServiceTest {
         Long reserveId = reservationService.reserve(user.getId(), table.getId(), time1, term, 4);
 
         //then
-        assertThrows(IllegalStateException.class, ()->{reservationService.updateReservation(reserveId, time2, term, 5);});
+        assertThrows(SeatExcessException.class, ()->{reservationService.updateReservation(reserveId, time2, term, 5);});
     }
 
 }
