@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/nav.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/event.css}" type="text/css">
+</head>
+<body>
+    <nav id='navi' th:replace="fragments/common :: menu"></nav>
+    <div class="list">
+        <ul>
+            <li class="li event">
+                <a href="/membership/event">이벤트</a>
+            </li>
+            <li class="li coup">
+                <a href="/membership/coupon">쿠폰</a>
+            </li>
+        </ul>
+    </div>
+    <section>
+        <div class="image">
+            <img th:src="@{/eventImg/001.png}">
+            <img th:src="@{/eventImg/002.png}">
+            <img th:src="@{/eventImg/003.png}">
+            <img th:src="@{/eventImg/004.png}">
+            <img th:src="@{/eventImg/005.png}">
+        </div>
+    </section>
+</body>
+</html>

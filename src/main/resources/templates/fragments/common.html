@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<nav id='navi' th:fragment="menu">
+    <ul>
+        <li><a href="../template/index.html">SE restaurant</a></li>
+        <li class="active">레스토랑
+            <ul>
+                <li><a href="Hi.html">인사말</a>
+                </li>
+                <li><a href="introduce.html">레스토랑 소개</a>
+                </li>
+                <li><a href="../static/css/location.html">매장 위치</a>
+                </li>
+            </ul>
+        </li>
+        <li class="active"><a href="#">메뉴</a>
+            <ul>
+                <li><a href="#">lunch</a>
+                </li>
+                <li><a href="#">dinner</a>
+                </li>
+            </ul>
+        </li>
+        <li class="active"><a href="#">멤버쉽</a>
+            <ul>
+                <li><a href="/membership/card">제휴 카드</a>
+                </li>
+                <li><a href="/membership/event">event</a>
+                </li>
+            </ul>
+        </li>
+        <li class="active"><a href="#">예약</a>
+            <ul>
+                <li><a href="/reservations/new">예약하기</a>
+                </li>
+                <li><a href="/reservations">예약 조회</a>
+                </li>
+            </ul>
+        </li>
+        <li class="active"><a href="#">고객센터</a>
+            <ul>
+                <li><a href="#">FAQ</a>
+                </li>
+                <li><a href="#">1:1 문의</a>
+                </li>
+            </ul>
+        </li>
+        <li th:if="!${userName}" class="active">
+            <a href="/login">로그인/회원가입</a>
+        </li>
+        <li th:unless="!${userName}" class="active">
+            <a href="/logout">로그아웃</a>
+        </li>
+    </ul>
+</nav>
+
+</body>
+
+</html>

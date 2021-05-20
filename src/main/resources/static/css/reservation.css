@@ -1,0 +1,83 @@
+.title{
+    font-size: 30px;
+    font-weight: 800;
+    background-color: #2c2c2c;
+    color: white;
+    padding: 20px;
+}
+.reservSubmit button{
+    float: right;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    border: none;
+    background-color: rgb(35, 104, 255);
+    font-size: 25px;
+    border-radius: 5px;
+    padding: 5px 20px;
+    font-weight: 500;
+    cursor: pointer;
+    color: rgb(231, 231, 231);
+}
+.reservSubmit button:hover{
+    background-color: rgb(255, 188, 125);
+    color: rgb(19, 93, 255);
+}
+.agree{
+    font-size: 18px;
+    font-weight: 600;
+}
+.agreeArea{
+    margin-top: 20px;
+}
+.agreeArea label{
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+.agreeArea .cancleTable{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+.cancleTable td{
+    padding: 0 59px;
+    font-weight: 550;
+    font-size: 15px
+}
+.noCan{
+    color: red;
+}
+.container{
+    width: 700px;
+    border-top: 3px solid black;
+    margin-top: 50px;
+}
+.leftLabel{
+    width: 150px;
+    border-right: 1px solid black;
+    color: black;
+    padding: 5px;
+}
+.form-control{
+    padding-left: 15px;
+}
+.form-group{
+    display: flex;
+    border-bottom: 1px solid black;
+    padding: 10px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+.form-group label{
+    font-size: 18px;
+    font-weight: 600;
+    width: 150px;
+}
+.form-group label span{
+    font-size: 15px;
+}
+.form-control{
+    width: 200px;
+}
+

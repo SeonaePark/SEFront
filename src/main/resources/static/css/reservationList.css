@@ -1,0 +1,20 @@
+.title{
+    font-size: 30px;
+    font-weight: 800;
+    background-color: #2c2c2c;
+    color: white;
+    padding: 20px;
+}
+
+.table{
+    margin-top: 50px;
+    width: 800px;
+    padding: 5px;
+}
+thead th{
+    background-color: rgba(124, 118, 121, 0.185);
+    font-weight: 600;
+}
+.btn{
+    cursor: pointer;
+}

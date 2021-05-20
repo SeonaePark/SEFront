@@ -19,6 +19,7 @@ public class HomeController {
     private final UserRepository userRepository;
     private final HttpSession httpSession;
 
+
     @GetMapping("/")
     public String home(Model model){
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
@@ -32,5 +33,32 @@ public class HomeController {
                 model.addAttribute("userRole", role);
         }
         return "home";
+    }
+
+    @GetMapping("/fragments/common")
+    public String common(Model model){
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if(user!=null){
+            model.addAttribute("userName", user.getName());
+            model.addAttribute("userEmail", user.getEmail());
+
+            Role role = userRepository.findByEmail(user.getEmail()).get().getRole();
+            log.info("Role = {}", role);
+            if(role == Role.ADMIN)
+                model.addAttribute("userRole", role);
+        }
+        return "fragments/common";
+    }
+    @GetMapping("/membership/card")
+    public String card(Model model){
+        return "membership/card";
+    }
+    @GetMapping("/membership/event")
+    public String event(Model model){
+        return "membership/event";
+    }
+    @GetMapping("/membership/coupon")
+    public String coupon(Model model){
+        return "membership/coupon";
     }
 }

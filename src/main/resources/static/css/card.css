@@ -1,0 +1,54 @@
+.title{
+    font-size: 30px;
+    font-weight: 800;
+    background-color: #2c2c2c;
+    color: white;
+    padding: 20px;
+}
+.explanation{
+    margin-top :10px;
+    font-size: 20px;
+    font-weight: 550;
+    color: rgb(17, 79, 160)
+}
+.cardList{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cardul{
+    display: flex;
+    justify-content: center;
+    display: visible;
+}
+.cards{
+    margin: 40px;
+}
+.card{
+    line-height: 25px;
+    margin: 10px;
+    height: 270px;
+}
+.card > p {
+    font-size: 15px;
+}
+.p{
+    margin-top: 5px;
+}
+.cbtn{
+    background-color: rgb(95, 127, 235);
+    border-radius: 5px;
+    color: white;
+    padding: 5px;
+    cursor: pointer;
+    font-weight: 800;
+}
+.cardImg {
+    width: 250px;
+    height: 152px;
+}
+@media(max-width:830px){
+    .cardul{
+        flex-direction: column;
+    }
+}
