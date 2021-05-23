@@ -35,20 +35,6 @@ public class HomeController {
         return "home";
     }
 
-    @GetMapping("/fragments/common")
-    public String common(Model model){
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
-        if(user!=null){
-            model.addAttribute("userName", user.getName());
-            model.addAttribute("userEmail", user.getEmail());
-
-            Role role = userRepository.findByEmail(user.getEmail()).get().getRole();
-            log.info("Role = {}", role);
-            if(role == Role.ADMIN)
-                model.addAttribute("userRole", role);
-        }
-        return "fragments/common";
-    }
     @GetMapping("/membership/card")
     public String card(Model model){
         return "membership/card";
@@ -80,5 +66,13 @@ public class HomeController {
     @GetMapping("/restaurant/location")
     public String location(Model model){
         return "restaurant/location";
+    }
+    @GetMapping("/menu/lunch")
+    public String lunch(Model model){
+        return "menu/lunch";
+    }
+    @GetMapping("/menu/dinner")
+    public String dinner(Model model){
+        return "menu/dinner";
     }
 }

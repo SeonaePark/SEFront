@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/nav.css}" type="text/css">
+    <title>Home</title>
 </head>
 <body>
 <nav id='navi' th:replace="fragments/common :: menu"></nav>
@@ -23,7 +24,7 @@
         <p th:text="${userName}">사용자 이름</p>
         <p th:text="${userEmail}">사용자 이메일</p>
     </li>
-    <li>
+    <li th:if="${userRole}">
         <a href="/reservations">예약 현황</a>
     </li>
     <li th:if="${userRole}">

@@ -2,17 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link th:href="@{/css/bootstrap.min.css}"
-          href="../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/table/table.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/nav.css}" type="text/css">
+    <title>Table Modification</title>
 </head>
 <body>
+<nav id='navi' th:replace="fragments/common :: menu"></nav>
+<h3 class="title">등록된 테이블</h3>
 <table class="table table-striped">
     <thead>
     <tr>
         <th>테이블 번호</th>
         <th>테이블 좌석 수</th>
-        <th></th>
-        <th></th>
+        <th>수정</th>
+        <th>삭제</th>
     </tr>
     </thead>
     <tbody>
@@ -25,14 +28,23 @@
         </td>
         <td>
             <a href="#" th:href="'javascript:cancel('+${item.id}+')'"
-               class="btn btn-danger" role="button">삭제</a>
+               class="btnD" role="button">삭제</a>
         </td>
     </tr>
     </tbody>
+    <tfoot>
+    <tr>
+        <td> </td>
+        <td>
+            <a class="btn" href="/tables/new">새로운 테이블 등록</a>
+        </td>
+        <td>
+            <a class="btn" href="/">홈으로 돌아가기</a>
+        </td>
+        <td></td>
+    </tr>
+    </tfoot>
 </table>
-<a href="/tables/new">테이블 등록</a>
-<br />
-<a href="/">홈으로 돌아가기</a>
 </body>
 <script>
     function cancel(id) {
