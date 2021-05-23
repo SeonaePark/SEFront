@@ -102,6 +102,8 @@ public class ReservationService {
         reservationRepository.delete(reservation.get());
     }
 
+
+
     public List<Reservation> findAllByTable(Table table){
         return reservationRepository.findAllByTable(table);
     }

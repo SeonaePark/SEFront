@@ -14,7 +14,6 @@ import sogon.booksys.domain.Table;
 import sogon.booksys.domain.User;
 import sogon.booksys.dto.ReservationDto;
 import sogon.booksys.dto.SessionUser;
-import sogon.booksys.dto.TableDto;
 import sogon.booksys.dto.UserDto;
 import sogon.booksys.exception.DuplicateReserveException;
 import sogon.booksys.exception.SeatExcessException;
@@ -24,7 +23,6 @@ import sogon.booksys.service.TableService;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -44,6 +42,8 @@ public class ReservationController {
 
         SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
         model.addAttribute("userEmail", sessionUser.getEmail());
+        model.addAttribute("userName", sessionUser.getName());
+
 
         return "/reservation/reservationList";
     }
@@ -57,6 +57,7 @@ public class ReservationController {
         model.addAttribute("reservation", reservationDto);
 
         SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
+        model.addAttribute("userName", sessionUser.getName());
         String email = sessionUser.getEmail();
         User user = userRepository.findByEmail(email).get();
         model.addAttribute("user",user);

@@ -41,6 +41,7 @@ public class AdminController {
         authService.updateAdmin(user);
 
         model.addAttribute("userEmail", user.getEmail());
+        model.addAttribute("userName", sessionUser.getName());
 
         return "/admin/adminSuccess";
     }

@@ -50,42 +50,82 @@ public class HomeController {
 
     @GetMapping("/membership/card")
     public String card(Model model){
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if(user!=null) {
+            model.addAttribute("userName", user.getName());
+        }
         return "membership/card";
     }
     @GetMapping("/membership/event")
     public String event(Model model){
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if(user!=null) {
+            model.addAttribute("userName", user.getName());
+        }
         return "membership/event";
     }
     @GetMapping("/membership/coupon")
     public String coupon(Model model){
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if(user!=null) {
+            model.addAttribute("userName", user.getName());
+        }
         return "membership/coupon";
     }
     @GetMapping("/customercenter/center")
     public String center(Model model){
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if(user!=null) {
+            model.addAttribute("userName", user.getName());
+        }
         return "customercenter/center";
     }
     @GetMapping("/customercenter/onetoone")
     public String onetoone(Model model){
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if(user!=null) {
+            model.addAttribute("userName", user.getName());
+        }
         return "customercenter/onetoone";
     }
     @GetMapping("/restaurant/Hi")
     public String Hi(Model model){
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if(user!=null) {
+            model.addAttribute("userName", user.getName());
+        }
         return "restaurant/Hi";
     }
     @GetMapping("/restaurant/introduce")
     public String introduce(Model model){
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if(user!=null) {
+            model.addAttribute("userName", user.getName());
+        }
         return "restaurant/introduce";
     }
     @GetMapping("/restaurant/location")
     public String location(Model model){
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if(user!=null) {
+            model.addAttribute("userName", user.getName());
+        }
         return "restaurant/location";
     }
     @GetMapping("/menu/lunch")
     public String lunch(Model model){
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if(user!=null) {
+            model.addAttribute("userName", user.getName());
+        }
         return "menu/lunch";
     }
     @GetMapping("/menu/dinner")
     public String dinner(Model model){
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if(user!=null) {
+            model.addAttribute("userName", user.getName());
+        }
         return "menu/dinner";
     }
 }
