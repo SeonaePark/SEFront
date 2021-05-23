@@ -31,11 +31,11 @@
                 <td th:text="${item.user.name}">예약한 이용자 이름</td>
                 <td th:text="${item.startTime}">예약시작 시간</td>
                 <td th:text="${item.closeTime}">예약만료 시간</td>
-                <td th:if="${item.user.name} == ${userName}">
+                <td th:if="${item.user.email} == ${userEmail}">
                     <a href="#" th:href="@{/reservations/{id}/edit (id=${item.id})}"
                        class="btn btn-primary" role="button">수정</a>
                 </td>
-                <td th:if="${item.user.name} == ${userName}">
+                <td th:if="${item.user.email} == ${userEmail}">
                     <a href="#" th:href="'javascript:cancel('+${item.id}+')'"
                        class="btn btn-danger" role="button">삭제</a>
                 </td>
