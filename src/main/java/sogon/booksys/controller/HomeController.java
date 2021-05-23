@@ -61,4 +61,24 @@ public class HomeController {
     public String coupon(Model model){
         return "membership/coupon";
     }
+    @GetMapping("/customercenter/center")
+    public String center(Model model){
+        return "customercenter/center";
+    }
+    @GetMapping("/customercenter/onetoone")
+    public String onetoone(Model model){
+        return "customercenter/onetoone";
+    }
+    @GetMapping("/restaurant/Hi")
+    public String Hi(Model model){
+        return "restaurant/Hi";
+    }
+    @GetMapping("/restaurant/introduce")
+    public String introduce(Model model){
+        return "restaurant/introduce";
+    }
+    @GetMapping("/restaurant/location")
+    public String location(Model model){
+        return "restaurant/location";
+    }
 }

@@ -2,12 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" th:href="@{css/nav.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/nav.css}" type="text/css">
 </head>
 <body>
-    <nav id='navi' th:replace="fragments/common :: menu">
+<nav id='navi' th:replace="fragments/common :: menu"></nav>
         <section>
-            <img class=main src="section1.jpg">
+            <img class=main th:src="@{/section1.jpg}">
             <div class="text">SE RESTAURANT</div>
         </section>
         <footer>
@@ -17,7 +17,7 @@
                 <li>open : 11am - 10pm</li>
             </ul>
         </footer>
-    </nav>
+
 
     <li th:unless="!${userName}">
         <p th:text="${userName}">사용자 이름</p>

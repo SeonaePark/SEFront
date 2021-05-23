@@ -1,0 +1,18 @@
+
+
+  .box {
+      z-index: 1;
+      float:left;
+      width:1530px;
+      height:545px;
+  }
+
+  section>#introduce{
+      z-index: 10;
+      position: absolute;
+      background-color: blue;
+      width:100px;
+      height:100px;
+      right: 100px;
+      top: 300px;
+  }

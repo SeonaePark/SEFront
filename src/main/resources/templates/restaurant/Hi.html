@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/nav.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/Hi.css}" type="text/css">
+</head>
+    <body>
+    <nav id='navi' th:replace="fragments/common :: menu"></nav>
+        <section>
+            <h1>고객님들께 드리는 인사말</h1>
+            <p>저희 SE restaurant는 항상 고객분께 최상의 서비스를 제공해 드릴 것을 약속합니다.</p>
+            <p>저희 SE restaurant는 식품의 원산지를 속이지 않고 정직하게 기재할 것을 약속합니다.</p>
+            <p>항상 찾아주셔서 감사합니다.</p>
+        </section>
+        <footer>
+            <ul>
+                <li>주소 : OO시 OO로 OOO</li>
+                <li>매장 연락처 : 000-0000-0000</li>
+                <li>open : 11am - 10pm</li>
+            </ul>
+        </footer>
+    </body>
+</html>

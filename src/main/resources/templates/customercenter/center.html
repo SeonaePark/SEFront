@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/nav.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/center.css}" type="text/css">
+    <title>Document</title>
+</head>
+<body>
+    <body>
+        <nav id='navi' th:replace="fragments/common :: menu"></nav>
+        <section>
+            <div id ="i">
+                <p id ="Q">Q. 레스토랑을 예약하려면 어떻게 해야하나요??</p>
+                <br>
+                <p>- 로그인 후에 메뉴의 예약탭에서 예약하기를 눌러 예약하실 수 있습니다.
+                <br>
+                <br>
+                   - 날짜를 선택하여 빈 테이블이 있을 경우 메뉴와 도착시간을 설정하여 예약하실 수 있습니다.
+                <br>
+                <br>
+                   - 테이블은 시스템 계산에 따라 가장 좋은 좌석으로 자동 예약됩니다.
+                </p>
+            </div>
+            <div id ="j">
+            <p id ="Q">Q. 예약된 테이블이 맘에 들지 않아요. 바꿀 수는 없나요??</p>
+            <p>- 메뉴의 예약탭에서 예약 수정을 눌러 테이블 위치나 메뉴, 도착시간을 수정하실 수 있습니다.</p>
+            </div>
+            <div id ="k">
+            <p id ="Q">Q. 예약된 날짜와 시간을 확인하고 싶어요.</p>
+            <p>- 메뉴의 예약탭에서 예약 확인을 눌러 예약 내역을 확인할 수 있습니다.</p>
+            </div>
+            <div id ="l">
+            <p id ="Q">Q. 한 테이블에 일행들이 합석이 불가능한데, 어떻게 해야하나요?</p>
+            <p>- 같은 이름의 예약자로 두개 이상의 테이블 예약이 가능하니 선호에 따라 예약하시면 되겠습니다.</p>
+            </div>
+            <div id ="o">
+            <p id ="Q">Q. 예약을 취소하고 싶어요.</p>
+            <p>- 메뉴의 예약탭에서 예약 수정을 눌러 예약 취소버튼을 클릭해 취소하실 수 있습니다.</p>
+            </div>
+            <div id ="p">
+            <p>해결 되지 않는 의문점이나 질문들은 1대1 문의를 이용해 주시면 빠른 답변 드리겠습니다.</p>
+            </div>
+        </section>
+        <footer>
+            <ul>
+                <li>주소 : OO시 OO로 OOO</li>
+                <li>매장 연락처 : 000-0000-0000</li>
+                <li>open : 11am - 10pm</li>
+            </ul>
+        </footer>
+    </body>
+</body>
+</html>

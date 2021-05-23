@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/nav.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/onetoone.css}" type="text/css">
+</head>
+<body>
+    <body>
+        <nav id='navi' th:replace="fragments/common :: menu"></nav>
+        <section>
+            <p>고객ID<input id="input" type="text"></p>
+            <p>질문사항<input id="input2" type="text"></p>
+            <button id="button1" style="width:50px; padding:2px; margin-top: 10px;">제출</button>
+        </section>
+        <footer>
+            <ul>
+                <li>주소 : OO시 OO로 OOO</li>
+                <li>매장 연락처 : 000-0000-0000</li>
+                <li>open : 11am - 10pm</li>
+            </ul>
+        </footer>
+    </body>
+</body>
+</html>
