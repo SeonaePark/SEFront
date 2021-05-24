@@ -53,6 +53,13 @@ public class HomeController {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
         if(user!=null) {
             model.addAttribute("userName", user.getName());
+
+            model.addAttribute("userEmail", user.getEmail());
+
+            Role role = userRepository.findByEmail(user.getEmail()).get().getRole();
+            log.info("Role = {}", role);
+            if(role == Role.ADMIN)
+                model.addAttribute("userRole", role);
         }
         return "membership/card";
     }
@@ -61,6 +68,12 @@ public class HomeController {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
         if(user!=null) {
             model.addAttribute("userName", user.getName());
+            model.addAttribute("userEmail", user.getEmail());
+
+            Role role = userRepository.findByEmail(user.getEmail()).get().getRole();
+            log.info("Role = {}", role);
+            if(role == Role.ADMIN)
+                model.addAttribute("userRole", role);
         }
         return "membership/event";
     }
@@ -69,6 +82,12 @@ public class HomeController {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
         if(user!=null) {
             model.addAttribute("userName", user.getName());
+            model.addAttribute("userEmail", user.getEmail());
+
+            Role role = userRepository.findByEmail(user.getEmail()).get().getRole();
+            log.info("Role = {}", role);
+            if(role == Role.ADMIN)
+                model.addAttribute("userRole", role);
         }
         return "membership/coupon";
     }
@@ -77,6 +96,11 @@ public class HomeController {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
         if(user!=null) {
             model.addAttribute("userName", user.getName());
+            model.addAttribute("userEmail", user.getEmail());
+            Role role = userRepository.findByEmail(user.getEmail()).get().getRole();
+            log.info("Role = {}", role);
+            if(role == Role.ADMIN)
+                model.addAttribute("userRole", role);
         }
         return "customercenter/center";
     }
@@ -85,6 +109,11 @@ public class HomeController {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
         if(user!=null) {
             model.addAttribute("userName", user.getName());
+            model.addAttribute("userEmail", user.getEmail());
+            Role role = userRepository.findByEmail(user.getEmail()).get().getRole();
+            log.info("Role = {}", role);
+            if(role == Role.ADMIN)
+                model.addAttribute("userRole", role);
         }
         return "customercenter/onetoone";
     }
@@ -93,6 +122,11 @@ public class HomeController {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
         if(user!=null) {
             model.addAttribute("userName", user.getName());
+            model.addAttribute("userEmail", user.getEmail());
+            Role role = userRepository.findByEmail(user.getEmail()).get().getRole();
+            log.info("Role = {}", role);
+            if(role == Role.ADMIN)
+                model.addAttribute("userRole", role);
         }
         return "restaurant/Hi";
     }
@@ -101,6 +135,11 @@ public class HomeController {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
         if(user!=null) {
             model.addAttribute("userName", user.getName());
+            model.addAttribute("userEmail", user.getEmail());
+            Role role = userRepository.findByEmail(user.getEmail()).get().getRole();
+            log.info("Role = {}", role);
+            if(role == Role.ADMIN)
+                model.addAttribute("userRole", role);
         }
         return "restaurant/introduce";
     }
@@ -109,6 +148,11 @@ public class HomeController {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
         if(user!=null) {
             model.addAttribute("userName", user.getName());
+            model.addAttribute("userEmail", user.getEmail());
+            Role role = userRepository.findByEmail(user.getEmail()).get().getRole();
+            log.info("Role = {}", role);
+            if(role == Role.ADMIN)
+                model.addAttribute("userRole", role);
         }
         return "restaurant/location";
     }
@@ -117,6 +161,11 @@ public class HomeController {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
         if(user!=null) {
             model.addAttribute("userName", user.getName());
+            model.addAttribute("userEmail", user.getEmail());
+            Role role = userRepository.findByEmail(user.getEmail()).get().getRole();
+            log.info("Role = {}", role);
+            if(role == Role.ADMIN)
+                model.addAttribute("userRole", role);
         }
         return "menu/lunch";
     }
@@ -125,6 +174,11 @@ public class HomeController {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
         if(user!=null) {
             model.addAttribute("userName", user.getName());
+            model.addAttribute("userEmail", user.getEmail());
+            Role role = userRepository.findByEmail(user.getEmail()).get().getRole();
+            log.info("Role = {}", role);
+            if(role == Role.ADMIN)
+                model.addAttribute("userRole", role);
         }
         return "menu/dinner";
     }

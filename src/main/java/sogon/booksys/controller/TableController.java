@@ -1,6 +1,7 @@
 package sogon.booksys.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,24 +9,41 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import sogon.booksys.domain.Role;
 import sogon.booksys.domain.Table;
+import sogon.booksys.dto.SessionUser;
 import sogon.booksys.dto.TableDto;
+import sogon.booksys.repository.UserRepository;
 import sogon.booksys.service.TableService;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class TableController {
 
     private final TableService tableService;
+    private final HttpSession httpSession;
+    private final UserRepository userRepository;
 
     @GetMapping("/tables")
     public String tableListForm(Model model){
         List<Table> all = tableService.findAllOrderByNumber();
 
         model.addAttribute("tables", all);
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+        if(user!=null){
+            model.addAttribute("userName", user.getName());
+            model.addAttribute("userEmail", user.getEmail());
+
+            Role role = userRepository.findByEmail(user.getEmail()).get().getRole();
+            log.info("Role = {}", role);
+            if(role == Role.ADMIN)
+                model.addAttribute("userRole", role);
+        }
 
         return "/table/tableList";
     }

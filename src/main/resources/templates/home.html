@@ -24,14 +24,5 @@
         <p th:text="${userName}">사용자 이름</p>
         <p th:text="${userEmail}">사용자 이메일</p>
     </li>
-    <li th:if="${userRole}">
-        <a href="/reservations">예약 현황</a>
-    </li>
-    <li th:if="${userRole}">
-        <a href="/tables">테이블</a>
-    </li>
-    <li th:if="${userRole}">
-        <a href="/users">유저 관리</a>
-    </li>
 </body>
 </html>

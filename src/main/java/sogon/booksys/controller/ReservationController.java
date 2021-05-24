@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import sogon.booksys.domain.Reservation;
+import sogon.booksys.domain.Role;
 import sogon.booksys.domain.Table;
 import sogon.booksys.domain.User;
 import sogon.booksys.dto.ReservationDto;
@@ -43,6 +44,10 @@ public class ReservationController {
         SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
         model.addAttribute("userEmail", sessionUser.getEmail());
         model.addAttribute("userName", sessionUser.getName());
+        Role role = userRepository.findByEmail(sessionUser.getEmail()).get().getRole();
+        log.info("Role = {}", role);
+        if(role == Role.ADMIN)
+            model.addAttribute("userRole", role);
 
 
         return "/reservation/reservationList";
@@ -52,6 +57,8 @@ public class ReservationController {
     public String reserveForm(Model model){
         List<Table> allTables = tableService.findAllOrderByNumber();
         model.addAttribute("tables", allTables);
+
+
 
         ReservationDto reservationDto = new ReservationDto();
         model.addAttribute("reservation", reservationDto);
