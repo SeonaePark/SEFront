@@ -5,18 +5,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import sogon.booksys.domain.Reservation;
 import sogon.booksys.domain.Table;
 import sogon.booksys.domain.User;
 import sogon.booksys.dto.ReservationDto;
 import sogon.booksys.dto.SessionUser;
+import sogon.booksys.dto.TableDto;
 import sogon.booksys.dto.UserDto;
 import sogon.booksys.exception.DuplicateReserveException;
 import sogon.booksys.exception.SeatExcessException;
+import sogon.booksys.repository.ReservationRepository;
+import sogon.booksys.repository.TableRepository;
 import sogon.booksys.repository.UserRepository;
 import sogon.booksys.service.ReservationService;
 import sogon.booksys.service.TableService;
@@ -89,8 +89,7 @@ public class ReservationController {
             result.rejectValue("covers", "fieldError", e.getMessage());
             return "/reservation/createReservationForm";
         }
-
-
         return "redirect:/reservations";
     }
+
 }

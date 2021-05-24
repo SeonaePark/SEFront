@@ -46,4 +46,7 @@ public class Table {
     public boolean canReserve(int userCount){
         return this.seats>=userCount;
     }
+
+
+
 }

@@ -18,9 +18,9 @@
           <input type="hidden" th:field="*{email}">
         </div>
         <div class="form-group">
-            <label for="table" class="leftLabel">예약할 테이블 수</label>
+            <label for="table" class="leftLabel">예약 테이블 번호</label>
             <select name="tableId" id="table" class="form-control tableN">
-              <option value="">테이블수 선택</option>
+              <option value="">테이블번호 선택</option>
               <option th:each="table : ${tables}"
                       th:value="${table.id}"
                       th:text="${table.number}" />
