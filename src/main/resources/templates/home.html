@@ -20,9 +20,9 @@
         </footer>
 
 
-    <li th:unless="!${userName}">
-        <p th:text="${userName}">사용자 이름</p>
-        <p th:text="${userEmail}">사용자 이메일</p>
+    <li th:unless="!${session.user}">
+        <p th:text="|${session.user.name} 님|">사용자 이름</p>
+        <p th:text="${session.user.email}">사용자 이메일</p>
     </li>
 </body>
 </html>

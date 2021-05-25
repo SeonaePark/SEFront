@@ -47,21 +47,30 @@
                 </li>
             </ul>
         </li>
-        <li class="active" th:if="${userRole}"><a href="#">관리자</a>
+        <th:block th:if="${session.user}">
+        <li class="active" th:if="${session.user.role.getKey() == 'ROLE_ADMIN'}"><a href="#">관리자</a>
             <ul>
-                <li th:if="${userRole}"><a href="/reservations">예약 현황</a>
+                <li>
+                    <a href="/reservations">예약 현황</a>
                 </li>
-                <li th:if="${userRole}"><a href="/tables">테이블</a>
+                <li>
+                    <a href="/tables">테이블</a>
                 </li>
-                <li th:if="${userRole}"><a href="/users">유저 관리</a>
+                <li>
+                    <a href="/users">유저 관리</a>
                 </li>
             </ul>
         </li>
-        <li th:if="!${userName}" class="active">
+        </th:block>
+        <li th:if="!${session.user}" class="active">
             <a href="/oauth2/authorization/google">로그인/회원가입</a>
         </li>
-        <li th:unless="!${userName}" class="active">
-            <a href="/logout">로그아웃</a>
+        <li th:unless="!${session.user}" class="active"><a href="#" th:text="|${session.user.name} 님|">회원정보</a>
+            <ul>
+                <li>
+                    <a href="/logout">로그아웃</a>
+                </li>
+            </ul>
         </li>
     </ul>
 </nav>

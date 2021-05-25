@@ -69,6 +69,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         SecurityContextHolder.getContext().setAuthentication(updatedAuth);
 
         user.update(Role.ADMIN);
+        httpSession.setAttribute("user", new SessionUser(user));
         return userRepository.save(user);
     }
 }
