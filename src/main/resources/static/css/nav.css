@@ -62,6 +62,7 @@ a{
 #navi>ul{
     display:flex;
     width:100%;
+    z-index: 1;
 }
 
 #navi>ul>li{
@@ -84,6 +85,7 @@ a{
     position:absolute;
     left: -2px;
     top:54px;
+    z-index: 0;
 }
 
 #navi>ul>li:hover>ul{

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/nav.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/reservation/statistics.css}" type="text/css">
+    <title>Statistics</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load("current", {packages:["corechart"]});
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            // var jsonData = $.ajax({
+            //     type:"POST",
+            //     url:"test",
+            //     async:false,
+            //     success : function(result){
+            //         $("#result").html(
+            //             tableId+tableNum);
+            //     }
+            // });
+
+            var data = google.visualization.arrayToDataTable([
+                ['tableId', 'tableNum'],
+                ['1번 테이블',11],
+                ['2번 테이블',2],
+                ['3번 테이블',2]
+            ]);
+
+            var options = {
+                title: '테이블별 예약 빈도수',
+                pieHole: 0.4,
+                backgroundColor:'rgb(243, 240, 235)'
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+            chart.draw(data, options);
+        }
+
+    </script>
+</head>
+<body>
+<nav id='navi' th:replace="fragments/common :: menu"></nav>
+<section>
+    <div id="donutchart" style="width: 800px; height: 450px; z-index: -1"></div>
+</section>
+
+</body>
+</html>

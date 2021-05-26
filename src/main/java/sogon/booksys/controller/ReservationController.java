@@ -39,8 +39,16 @@ public class ReservationController {
     @GetMapping("/reservations")
     public String reservationListForm(Model model){
         List<Reservation> reservations = reservationService.findAll();
-
         model.addAttribute("reservations", reservations);
+
+        SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
+        model.addAttribute("userEmail", sessionUser.getEmail());
+        model.addAttribute("userName", sessionUser.getName());
+        Role role = userRepository.findByEmail(sessionUser.getEmail()).get().getRole();
+        log.info("Role = {}", role);
+        if(role == Role.ADMIN)
+            model.addAttribute("userRole", role);
+
 
         return "/reservation/reservationList";
     }
@@ -50,10 +58,13 @@ public class ReservationController {
         List<Table> allTables = tableService.findAllOrderByNumber();
         model.addAttribute("tables", allTables);
 
+
+
         ReservationDto reservationDto = new ReservationDto();
         model.addAttribute("reservation", reservationDto);
 
         SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
+        model.addAttribute("userName", sessionUser.getName());
         String email = sessionUser.getEmail();
         User user = userRepository.findByEmail(email).get();
         model.addAttribute("user",user);
