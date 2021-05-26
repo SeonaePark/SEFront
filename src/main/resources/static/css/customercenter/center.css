@@ -1,62 +1,83 @@
+section{
+    display: flex;
+    flex-direction: column;
+}
+.question{
+    margin-bottom: 30px;
+}
+.question>p{
+    margin: 5px;
+}
 #i{
       padding: 5px;
-      position: absolute;
-      left:130px;
-      top:-10px;
-      background:rgb(255, 255, 255,0.5);
-      width: 540px;
-      height: 170px;
+      /*position: absolute;*/
+      /*left:130px;*/
+      /*top:-10px;*/
+      background:rgba(255, 255, 255,0.5);
+      /*width: 540px;*/
+      /*height: 170px;*/
+    border-bottom: 1px solid black;
   }
 
-  #j{   
+#j{
     z-index: 3;
     padding: 5px;
-    left : 820px;
-    top:-10px;
-    position: absolute;
-    background: rgb(255, 255, 255,0.5);
-    width : 550px;
-    height: 70px;
+    /*left : 820px;*/
+    /*top:-10px;*/
+    /*position: absolute;*/
+    background: rgba(255, 255, 255,0.5);
+    /*width : 550px;*/
+    /*height: 70px;*/
+    border-bottom: 1px solid black;
   }
 
   #k{
     padding: 5px;
-    left: 130px;
-    top : 200px;
-    position: absolute;
-    background: rgb(255, 255, 255,0.5);;
-    width : 420px;
-    height:100px;
+    /*left: 130px;*/
+    /*top : 200px;*/
+    /*position: absolute;*/
+    background: rgba(255, 255, 255,0.5);
+    /*width : 420px;*/
+    /*height:100px;*/
+      border-bottom: 1px solid black;
   }
 
   #l{
     padding: 5px;
-    position: absolute;
-    left: 800px;
-    top: 100px;
-    background: rgb(255, 255, 255,0.5);
-    width : 570px;
-    height:200px;
+    /*position: absolute;*/
+    /*left: 800px;*/
+    /*top: 100px;*/
+    background: rgba(255, 255, 255,0.5);
+    /*width : 570px;*/
+    /*height:200px;*/
+      border-bottom: 1px solid black;
   }
 
   #o{
     padding: 5px;
-    position: absolute;
-    left:130px;
-    top: 340px;
-    background: rgb(255, 255, 255,0.5);
-    width : 500px;
-    height:200px;
+    /*position: absolute;*/
+    /*left:130px;*/
+    /*top: 340px;*/
+    background: rgba(255, 255, 255,0.5);
+    /*width : 500px;*/
+    /*height:200px;*/
+      border-bottom: 1px solid black;
   }
   #p{
     padding: 5px;
-    position: absolute;
-    left:850px;
-    top: 340px;
-    background: rgb(255, 255, 255,0.5);
-    width : 520px;
-    height:200px;
+    /*position: absolute;*/
+    /*left:850px;*/
+    /*top: 340px;*/
+    background: rgba(255, 255, 255,0.5);
+    /*width : 520px;*/
+    /*height:200px;*/
+      border-bottom: 1px solid black;
+    margin-bottom: 50px;
+      font-weight: 700;
   }
-  div>#Q{
+  div>.Q{
       font-size: 20px;
+      margin-bottom: 10px;
+      font-weight: 700;
+      margin-top: 10px;
   }
