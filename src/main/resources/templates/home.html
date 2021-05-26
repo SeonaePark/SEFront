@@ -4,25 +4,34 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/nav.css}" type="text/css">
     <title>Home</title>
+    <style>
+        footer{
+            display: flex;
+            align-content: center;
+            justify-content: center;
+            font-weight: 700;
+            padding-bottom: 50px;
+        }
+        section{
+            margin-bottom: 50px;
+        }
+        .main{
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
 <nav id='navi' th:replace="fragments/common :: menu"></nav>
         <section>
-            <img class=main th:src="@{/image/section1.jpg}">
-            <div class="text">SE RESTAURANT</div>
+            <img class="main" th:src="@{/image/section1.jpg}">
+<!--            <div class="text">SE RESTAURANT</div>-->
         </section>
         <footer>
             <ul>
-                <li>주소 : OO시 OO로 OOO</li>
-                <li>매장 연락처 : 000-0000-0000</li>
+                <li>주소 : 수원시 영통구 광교산로 154-42</li>
+                <li>매장 연락처 : 031-249-9114</li>
                 <li>open : 11am - 10pm</li>
             </ul>
         </footer>
-
-
-    <li th:unless="!${session.user}">
-        <p th:text="|${session.user.name} 님|">사용자 이름</p>
-        <p th:text="${session.user.email}">사용자 이메일</p>
-    </li>
 </body>
 </html>
