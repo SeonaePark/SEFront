@@ -33,16 +33,6 @@ public class UserController {
 
         model.addAttribute("users", all);
 
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
-        if(user!=null){
-            model.addAttribute("userName", user.getName());
-            model.addAttribute("userEmail", user.getEmail());
-
-            Role role = userRepository.findByEmail(user.getEmail()).get().getRole();
-            log.info("Role = {}", role);
-            if(role == Role.ADMIN)
-                model.addAttribute("userRole", role);
-        }
         return "/user/userList";
     }
 

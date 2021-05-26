@@ -34,16 +34,6 @@ public class TableController {
         List<Table> all = tableService.findAllOrderByNumber();
 
         model.addAttribute("tables", all);
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
-        if(user!=null){
-            model.addAttribute("userName", user.getName());
-            model.addAttribute("userEmail", user.getEmail());
-
-            Role role = userRepository.findByEmail(user.getEmail()).get().getRole();
-            log.info("Role = {}", role);
-            if(role == Role.ADMIN)
-                model.addAttribute("userRole", role);
-        }
 
         return "/table/tableList";
     }

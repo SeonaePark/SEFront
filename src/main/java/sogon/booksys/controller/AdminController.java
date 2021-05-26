@@ -24,24 +24,20 @@ public class AdminController {
     private final HttpSession httpSession;
 
     @GetMapping("/admin")
-    public String adminForm(Model model){
+    public String adminForm(){
         List<User> all = userRepository.findAll();
         for (User user : all) {
-            log.info("for UserId = {}", user.getId());
-            log.info("for Role = {}", user.getRole());
+            log.debug("for UserId = {}", user.getId());
+            log.debug("for Role = {}", user.getRole());
             if(user.getRole() == Role.ADMIN) {
                 return "/admin/adminExist";
             }
         }
-
-        log.info("for end");
+        log.debug("for end");
         SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
         User user = userRepository.findByEmail(sessionUser.getEmail()).get();
 
         authService.updateAdmin(user);
-
-        model.addAttribute("userEmail", user.getEmail());
-        model.addAttribute("userName", sessionUser.getName());
 
         return "/admin/adminSuccess";
     }
