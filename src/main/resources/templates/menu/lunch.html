@@ -7,33 +7,13 @@
   <title>lunch menu</title>
 </head>
 <body>
-<div id="warp">
   <nav id='navi' th:replace="fragments/common :: menu"></nav>
   <section id="contents">
-    <h3 class="menu-list-title">Lunch Menu</h3>
-    <p class="menu-time"> lunch time : 11:30 ~ 15:00 </p>
-    <div class="menu-list">
-      <ul>
-        <li>
-          <div class="menu">
-            <img class="menu-img" th:src="@{/image/menuImg/1.jpg}" alt="steak">
-            <p class="menu-name">steak</p>
-            <p class="menu-cost">(28,000 won)</p>
-            <p class="menu-detail">깊은 풍미가 담긴 스테이크입니다.</p>
-          </div>
-        </li>
-        <li>
-          <div class="menu">
-            <img class="menu-img" th:src="@{/image/menuImg/2.jpg}" alt="pasta">
-            <p class="menu-name">pasta</p>
-            <p class="menu-cost">(28,000 won)</p>
-            <p class="menu-detail">새우가 들어간 오일파스타입니다.</p>
-          </div>
-        </li>
-      </ul>
-    </div>
+    <h3 class="title">Lunch Menu</h3>
+    <p>
+    <img class="menu-img" th:src="@{/image/menuImg/lunch.jpg}">
+    </p>
   </section>
   <footer></footer>
-</div>
 </body>
 </html>

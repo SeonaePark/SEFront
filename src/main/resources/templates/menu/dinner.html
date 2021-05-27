@@ -6,33 +6,13 @@
   <link rel="stylesheet" th:href="@{/css/nav.css}" type="text/css">
 </head>
 <body>
-<div id="warp">
   <nav id='navi' th:replace="fragments/common :: menu"></nav>
   <section id="contents">
-    <h3 class="menu-list-title">Dinner Menu</h3>
-    <p class="menu-time"> dinner time : 17:30 ~ 21:00 </p>
-    <div class="menu-list">
-      <ul>
-        <li>
-          <div class="menu">
-            <img class="menu-img" th:src="@{/image/menuImg/3.jpg}" alt="pizza">
-            <p class="menu-name">pizza</p>
-            <p class="menu-cost">(28,000 won)</p>
-            <p class="menu-detail">다양한 재료가 골고루 들어간 콤비네이션 피자입니다.</p>
-          </div>
-        </li>
-        <li>
-          <div class="menu">
-            <img class="menu-img" th:src="@{/image/menuImg/4.jpg}" alt="chicken">
-            <p class="menu-name">chicken</p>
-            <p class="menu-cost">(28,000 won)</p>
-            <p class="menu-detail">버섯과 감자와 함께 오븐에서 조리한 닭 요리입니다.</p>
-          </div>
-        </li>
-      </ul>
-    </div>
+    <h3 class="title">Dinner Menu</h3>
+    <p>
+    <img class="menu-img" th:src="@{/image/menuImg/dinner.jpg}">
+    </p>
   </section>
   <footer></footer>
-</div>
 </body>
 </html>
