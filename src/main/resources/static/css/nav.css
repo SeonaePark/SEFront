@@ -78,7 +78,7 @@ a{
 
 #navi>ul>li>ul{
     height:0;
-    transition:0.5s;
+    /*transition:0.5s;*/
     overflow:hidden;
     background:#ffffff;
     width:100%;

@@ -5,10 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import sogon.booksys.domain.Role;
 import sogon.booksys.domain.Table;
 import sogon.booksys.dto.SessionUser;
@@ -16,9 +13,11 @@ import sogon.booksys.dto.TableDto;
 import sogon.booksys.repository.UserRepository;
 import sogon.booksys.service.TableService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Vector;
 
 @Controller
 @RequiredArgsConstructor
@@ -36,13 +35,6 @@ public class TableController {
         model.addAttribute("tables", all);
 
         return "/table/tableList";
-    }
-
-    @GetMapping("/tables/new")
-    public String createForm(Model model){
-        TableDto tableDto = new TableDto();
-        model.addAttribute(tableDto);
-        return "/table/createTableForm";
     }
 
     @PostMapping("/tables/new")
@@ -97,4 +89,5 @@ public class TableController {
 
         return "redirect:/tables";
     }
+
 }

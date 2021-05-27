@@ -4,20 +4,87 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/css/nav.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/restaurant/location.css}" type="text/css">
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5afd6da9b3a977edb9602e3695e01681&libraries=services"></script>
+    <style>
+        footer{
+            display: flex;
+            align-content: center;
+            justify-content: center;
+            font-weight: 700;
+            padding-bottom: 50px;
+            margin-top: 30px;
+        }
+        .searchDiv {
+            margin-top: 30px;
+        }
+        .search{
+            color: blue;
+            text-decoration: underline;
+            font-size: 25px;
+        }
+        #map{
+            z-index: -1;
+        }
+    </style>
     <title>Location</title>
 </head>
 <body>
     <nav id='navi' th:replace="fragments/common :: menu"></nav>
         <section>
-            <img class="box" src="loca.PNG">
-            <div id ="introduce">
-                <p>안녕하세요 레스토랑SE입니다.</p>
-            </div>
+<!--            <img class="box" th:src="@{/image/loca.png}">-->
+<!--            <div id ="introduce">-->
+<!--                <p>안녕하세요 레스토랑SE입니다.</p>-->
+<!--            </div>-->
+
+            <div id="map" style="width:100%;height:400px;"></div>
         </section>
+    <script>
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+            mapOption = {
+                center: new kakao.maps.LatLng(37.3013186008204,127.03470592937443), // 지도의 중심좌표
+                level: 3 // 지도의 확대 레벨
+            };
+
+        // 지도를 생성합니다
+        var map = new kakao.maps.Map(mapContainer, mapOption);
+
+        // 주소-좌표 변환 객체를 생성합니다
+        var geocoder = new kakao.maps.services.Geocoder();
+
+        // 주소로 좌표를 검색합니다
+        geocoder.addressSearch('경기도 수원시 영통구 광교산로 154-42', function(result, status) {
+
+            // 정상적으로 검색이 완료됐으면
+            if (status === kakao.maps.services.Status.OK) {
+
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                // 결과값으로 받은 위치를 마커로 표시합니다
+                var marker = new kakao.maps.Marker({
+                    map: map,
+                    position: coords
+                });
+
+                // 인포윈도우로 장소에 대한 설명을 표시합니다
+                var infowindow = new kakao.maps.InfoWindow({
+                    content: '<div style="width:150px;text-align:center;padding:6px 0;">SE Restaurant</div>'
+                });
+                infowindow.open(map, marker);
+
+                // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                map.setCenter(coords);
+            }
+        });
+    </script>
+    <div class="searchDiv">
+        <a class="search" href="https://map.kakao.com/link/to/SE Restaurant,37.3013186008204,127.03470592937443">
+            SE Restaurant 가는 길찾기
+        </a>
+    </div>
         <footer>
             <ul>
-                <li>주소 : OO시 OO로 OOO</li>
-                <li>매장 연락처 : 000-0000-0000</li>
+                <li>수원시 영통구 광교산로 154-42</li>
+                <li>매장 연락처 : 031-249-9114</li>
                 <li>open : 11am - 10pm</li>
             </ul>
         </footer>

@@ -5,8 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import sogon.booksys.domain.Role;
 import sogon.booksys.dto.SessionUser;
+import sogon.booksys.dto.TableDto;
 import sogon.booksys.repository.UserRepository;
 
 import javax.servlet.http.HttpSession;
