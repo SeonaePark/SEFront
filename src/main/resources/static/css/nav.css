@@ -89,7 +89,7 @@ a{
 }
 
 #navi>ul>li:hover>ul{
-    height:125px;
+    height:180px;
     left:-2px;
     top:54px;
     border:2px solid black;
