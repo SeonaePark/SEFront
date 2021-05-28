@@ -7,10 +7,9 @@ section {
     height: 40px;
     width: 100%;
     font-size: 30px;
-    background-color: rgb(201, 115, 17);
+    background-color: rgb(163, 116, 67);
     color: white;
-    padding: 20px;
-    margin: auto;
+    padding: 20px 0;
 }
 
 .menu-img{
