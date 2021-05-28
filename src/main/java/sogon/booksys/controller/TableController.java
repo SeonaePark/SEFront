@@ -36,6 +36,12 @@ public class TableController {
 
         return "/table/tableList";
     }
+    @GetMapping("/tables/new")
+    public String createForm(Model model){
+        TableDto tableDto = new TableDto();
+        model.addAttribute(tableDto);
+        return "/table/createTableForm";
+    }
 
     @PostMapping("/tables/new")
     public String create(@Valid TableDto tableDto, BindingResult result){
