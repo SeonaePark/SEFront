@@ -240,4 +240,23 @@ class ReservationServiceTest {
         assertThrows(SeatExcessException.class, ()->{reservationService.updateReservation(reserveId, time2, term, 5);});
     }
 
+    @Test
+    void 예약통계테스트(){
+        //given
+        User user = new User();
+        Table table = Table.builder().number(1).seats(4).build();
+        LocalDateTime time = LocalDateTime.now();
+        int term = 30;
+
+        //when
+        userRepository.save(user);
+        tableRepository.save(table);
+        reservationService.reserve(user.getId(), table.getId(), time, term, 4);
+        reservationService.reserve(user.getId(), table.getId(), time.plusMinutes(60), term, 4);
+
+        //then
+        int count = reservationService.countTableBetweenDate(table, time.minusDays(1), time.plusDays(1));
+        assertEquals(count, 2);
+    }
+
 }
