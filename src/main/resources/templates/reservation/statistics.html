@@ -19,8 +19,7 @@
         google.charts.setOnLoadCallback(drawChart);
 
         function drawChart() {
-            var dataList = [];
-            dataList.push([${tableId}, ${num}]);
+            var dataList = ['3',3]; // [테이블id, 그 테이블 사용한 예약 수]
             var data = google.visualization.arrayToDataTable([
                 ['month', 'tableId'],
                 dataList
