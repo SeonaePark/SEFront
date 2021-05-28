@@ -102,7 +102,9 @@ public class ReservationService {
         reservationRepository.delete(reservation.get());
     }
 
-
+    public int countTableBetweenDate(Table table, LocalDateTime start, LocalDateTime end){
+        return reservationRepository.countAllByTableAndStartTimeBetween(table, start, end);
+    }
 
     public List<Reservation> findAllByTable(Table table){
         return reservationRepository.findAllByTable(table);

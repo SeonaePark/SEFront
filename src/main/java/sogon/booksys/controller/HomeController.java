@@ -1,100 +1,65 @@
 package sogon.booksys.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import sogon.booksys.domain.Role;
-import sogon.booksys.dto.SessionUser;
-import sogon.booksys.dto.TableDto;
-import sogon.booksys.repository.UserRepository;
-
-import javax.servlet.http.HttpSession;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 public class HomeController {
 
-    private final UserRepository userRepository;
-    private final HttpSession httpSession;
 
     @GetMapping("/")
-    public String home(Model model){
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
-        if(user!=null){
-            model.addAttribute("userName", user.getName());
-            model.addAttribute("userEmail", user.getEmail());
-
-            Role role = userRepository.findByEmail(user.getEmail()).get().getRole();
-            log.info("Role = {}", role);
-            if(role == Role.ADMIN)
-                model.addAttribute("userRole", role);
-        }
+    public String home(){
         return "home";
     }
     @GetMapping("/fragments/common")
-    public String common(Model model){
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
-        if(user!=null){
-            model.addAttribute("userName", user.getName());
-            model.addAttribute("userEmail", user.getEmail());
-
-            Role role = userRepository.findByEmail(user.getEmail()).get().getRole();
-            log.info("Role = {}", role);
-            if(role == Role.ADMIN)
-                model.addAttribute("userRole", role);
-        }
+    public String common(){
         return "fragments/common";
     }
 
     @GetMapping("/membership/card")
-    public String card(Model model){
+    public String card(){
         return "membership/card";
     }
     @GetMapping("/membership/event")
-    public String event(Model model){
+    public String event(){
         return "membership/event";
     }
     @GetMapping("/membership/coupon")
-    public String coupon(Model model){
+    public String coupon(){
         return "membership/coupon";
     }
     @GetMapping("/customercenter/center")
-    public String center(Model model){
+    public String center(){
         return "customercenter/center";
     }
     @GetMapping("/customercenter/onetoone")
-    public String onetoone(Model model){
+    public String onetoone(){
         return "customercenter/onetoone";
     }
     @GetMapping("/restaurant/Hi")
-    public String Hi(Model model){
+    public String Hi(){
         return "restaurant/Hi";
     }
     @GetMapping("/reservation/statistics")
-    public String statistics(Model model){
+    public String statistics(){
         return "reservation/statistics";
     }
     @GetMapping("/restaurant/introduce")
-    public String introduce(Model model){
+    public String introduce(){
         return "restaurant/introduce";
     }
     @GetMapping("/restaurant/location")
-    public String location(Model model){
+    public String location(){
         return "restaurant/location";
     }
     @GetMapping("/menu/lunch")
-    public String lunch(Model model){
-
+    public String lunch(){
         return "menu/lunch";
     }
     @GetMapping("/menu/dinner")
-    public String dinner(Model model){
-
+    public String dinner(){
         return "menu/dinner";
     }
 }

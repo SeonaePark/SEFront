@@ -27,13 +27,13 @@ public class AdminController {
     public String adminForm(){
         List<User> all = userRepository.findAll();
         for (User user : all) {
-            log.debug("for UserId = {}", user.getId());
-            log.debug("for Role = {}", user.getRole());
+            log.info("for UserId = {}", user.getId());
+            log.info("for Role = {}", user.getRole());
             if(user.getRole() == Role.ADMIN) {
                 return "/admin/adminExist";
             }
         }
-        log.debug("for end");
+        log.info("for end");
         SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
         User user = userRepository.findByEmail(sessionUser.getEmail()).get();
 

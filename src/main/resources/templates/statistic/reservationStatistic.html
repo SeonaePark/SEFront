@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/nav.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/reservation/reservation.css}" type="text/css">
+    <title>Reservation</title>
+</head>
+<body>
+<nav id='navi' th:replace="fragments/common :: menu"></nav>
+<div class="title">통계</div>
+<section>
+    <div class="container">
+        <form role="form" action="/statistic" method="post">
+            <p th:text="|테이블 넘버 = ${table.number}|">테이블 넘버</p>
+            <p th:text="|${statistic.startTime} 부터 ${statistic.endTime} 까지 검색|">검색 시간</p>
+            <p th:text="|검색된 총 예약 수 = ${count}|">통계</p>
+        </form>
+    </div> <!-- /container -->
+</section>
+</body>
+</html>
