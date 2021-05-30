@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Getter @Setter
@@ -52,5 +53,10 @@ public class Reservation {
         reservation.setCovers(userCount);
 
         return reservation;
+    }
+
+    //비즈니스 메서드
+    public int getTerm(){
+        return (int) ChronoUnit.MINUTES.between(startTime, closeTime);
     }
 }

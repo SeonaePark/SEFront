@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Getter @Setter
@@ -26,9 +27,15 @@ public class ReservationDto {
     @Min(value = 1, message = "최소 1분 이상 입력해주세요.")
     private int term;
 
+    @NotNull(message = "테이블을 선택해주세요.")
+    private Long tableId;
+
     //비즈니스로직
     public void setCloseTime(int term){
         this.term = term;
         closeTime = startTime.plusMinutes(term);
+    }
+    public void setCloseTime(LocalDateTime closeTime){
+        this.closeTime = closeTime;
     }
 }

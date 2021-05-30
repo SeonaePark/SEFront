@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import sogon.booksys.domain.Reservation;
-import sogon.booksys.domain.Role;
 import sogon.booksys.domain.Table;
 import sogon.booksys.domain.User;
 import sogon.booksys.dto.ReservationDto;
@@ -74,13 +73,68 @@ public class ReservationController {
         try {
             reservationService.reserve(user.getId(), tableId, reservation.getStartTime(),
                     reservation.getCloseTime(), reservation.getCovers());
-        }catch (DuplicateReserveException e){
+        } catch (DuplicateReserveException e){
             result.rejectValue("startTime", "fieldError", e.getMessage());
-            return "/reservation/createReservationForm";
-        }catch (SeatExcessException e){
+        } catch (SeatExcessException e){
             result.rejectValue("covers", "fieldError", e.getMessage());
+        }
+        if(result.hasErrors()){
             return "/reservation/createReservationForm";
         }
+
+        return "redirect:/reservations";
+    }
+
+    @GetMapping("/reservations/{reservationId}/edit")
+    public String editForm(@PathVariable Long reservationId, Model model){
+        Reservation reservation = reservationService.findById(reservationId).get();
+        ReservationDto dto = new ReservationDto();
+        dto.setId(reservation.getId());
+        dto.setCovers(reservation.getCovers());
+        dto.setStartTime(reservation.getStartTime());
+        dto.setTerm(reservation.getTerm());
+        dto.setTableId(reservation.getTable().getId());
+
+        model.addAttribute("reservation",dto);
+
+        List<Table> allTables = tableService.findAllOrderByNumber();
+        model.addAttribute("tables", allTables);
+        return "/reservation/updateReservation";
+    }
+
+    @PostMapping("/reservations/{reservationId}/edit")
+    public String editReservation(@PathVariable Long reservationId,
+                                  @Valid @ModelAttribute("reservation") ReservationDto dto,
+                                  BindingResult result, Model model){
+        List<Table> allTables = tableService.findAllOrderByNumber();
+        model.addAttribute("tables", allTables);
+
+        if(result.hasErrors()){
+            return "/reservation/updateReservation";
+        }
+
+        Reservation reservation = reservationService.findById(reservationId).get();
+        try {
+            if (!dto.getTableId().equals(reservation.getTable().getId())) {
+                reservationService.moveTable(reservationId, dto.getTableId());
+            }
+            reservationService.updateReservation(reservationId, dto.getStartTime(), dto.getTerm(), dto.getCovers());
+        } catch (DuplicateReserveException e){
+            result.rejectValue("startTime", "fieldError", e.getMessage());
+        } catch (SeatExcessException e){
+            result.rejectValue("covers", "fieldError", e.getMessage());
+        }
+
+        if(result.hasErrors()){
+            return "/reservation/updateReservation";
+        }
+
+        return "redirect:/reservations";
+    }
+
+    @PostMapping("/reservations/{reservationId}/delete")
+    public String delete(@PathVariable Long reservationId){
+        reservationService.cancelReservation(reservationId);
         return "redirect:/reservations";
     }
 }
