@@ -26,7 +26,7 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final TableRepository tableRepository;
 
-    //예약 (시작 시간과 몇분예약할지를 인자로 받음)
+    //예약 (시작 시간과 몇 분 예약할지를 인자로 받음)
     @Transactional
     public Long reserve(Long userId, Long tableId, LocalDateTime time, int term, int userCount){
         User user = userRepository.findById(userId).get();
@@ -59,6 +59,7 @@ public class ReservationService {
         return reservation.getId();
     }
 
+    //예약 테이블 변경
     @Transactional
     public Long moveTable(Long reservationId, Long newTableId){
         Reservation reservation = reservationRepository.findById(reservationId).get();
@@ -78,6 +79,7 @@ public class ReservationService {
         return savedReservation.getId();
     }
 
+    //예약 변경 (시작 시간과 몇 분 간격인지를 인자로 받음)
     @Transactional
     public Long updateReservation(Long reservationId, LocalDateTime time, int term, int userCount){
         Reservation reservation = reservationRepository.findById(reservationId).get();
@@ -90,6 +92,26 @@ public class ReservationService {
 
         reservation.setStartTime(time);
         reservation.setCloseTime(time.plusMinutes(term));
+        reservation.setCovers(userCount);
+        Reservation save = reservationRepository.save(reservation);
+
+        return save.getId();
+    }
+
+    //예약 변경 (시작 시간과 끝나는 시간을 인자로 받음)
+    @Transactional
+    public Long updateReservation(Long reservationId, LocalDateTime startTime, LocalDateTime closeTime, int userCount){
+        Reservation reservation = reservationRepository.findById(reservationId).get();
+        Table table = reservation.getTable();
+        int term = (int) ChronoUnit.MINUTES.between(startTime, closeTime);
+
+        List<Reservation> allTable = reservationRepository.findAllByTable(table);
+
+        judgeTableCount(userCount, table);
+        judgeDuplicateTime(startTime, term, allTable);
+
+        reservation.setStartTime(startTime);
+        reservation.setCloseTime(closeTime);
         reservation.setCovers(userCount);
         Reservation save = reservationRepository.save(reservation);
 
@@ -132,11 +154,14 @@ public class ReservationService {
             LocalDateTime closeTime = reservation.getCloseTime();
 
             if(time.isAfter(arrivalTime) && time.isBefore(closeTime)){
-                throw new DuplicateReserveException("이미 예약된 시간입니다.");
+                throw new DuplicateReserveException(arrivalTime.getHour() + "시 " + arrivalTime.getMinute() + "분부터 "
+                        + closeTime.getHour() + "시 " + closeTime.getMinute() + "분 까지는 " + "이미 예약된 시간입니다.");
             } else if(time.plusMinutes(term).isAfter(arrivalTime) && time.plusMinutes(term).isBefore(closeTime)){
-                throw new DuplicateReserveException("이미 예약된 시간입니다.");
+                throw new DuplicateReserveException(arrivalTime.getHour() + "시 " + arrivalTime.getMinute() + "분부터 "
+                        + closeTime.getHour() + "시 " + closeTime.getMinute() + "분 까지는 " + "이미 예약된 시간입니다.");
             } else if(time.isBefore(arrivalTime) && time.plusMinutes(term).isAfter(closeTime)){
-                throw new DuplicateReserveException("이미 예약된 시간을 포함하고 있습니다.");
+                throw new DuplicateReserveException(arrivalTime.getHour() + "시 " + arrivalTime.getMinute() + "분부터 "
+                        + closeTime.getHour() + "시 " + closeTime.getMinute() + "분 까지는 " + "이미 예약된 시간입니다.");
             }
         }
     }
