@@ -30,7 +30,7 @@ public class User {
 
     private String phoneNumber;    //예약자 휴대폰 번호
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Reservation> reservations = new ArrayList<>();
 
     @Builder
