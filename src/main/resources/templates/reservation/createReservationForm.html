@@ -17,32 +17,38 @@
           <input type="hidden" th:field="*{name}">
           <input type="hidden" th:field="*{email}">
         </div>
-        <div class="form-group">
-            <label for="table" class="leftLabel">예약 테이블 번호</label>
+        <div class="form-group" th:object="${reservation}">
+            <label for="table" th:for="tableId" class="leftLabel">예약 테이블 번호</label>
             <select name="tableId" id="table" class="form-control tableN">
               <option value="">테이블번호 선택</option>
               <option th:each="table : ${tables}"
                       th:value="${table.id}"
-                      th:text="${table.number}" />
+                      th:text="${table.number}"/>
             </select>
         </div>
         <div class="form-group" th:object="${reservation}">
             <label th:for="covers" class="leftLabel">예약 인원</label>
+          <div class="form-input">
             <input type="number" th:field="*{covers}" class="form-control clientN" placeholder="예약 인원을 입력하세요"
                    th:class="${#fields.hasErrors('covers')}? 'form-control fieldError' : 'form-control'" />
             <p th:if="${#fields.hasErrors('covers')}" th:errors="*{covers}">잘못된 입력값이 들어올때</p>
+          </div>
         </div>
         <div class="form-group" th:object="${reservation}">
             <label th:for="startTime" class="leftLabel">예약 날짜 및 시간</label>
+          <div class="form-input">
             <input type="datetime-local" th:field="*{startTime}" class="form-control reservTime" placeholder="예약 시간을 입력하세요"
                    th:class="${#fields.hasErrors('startTime')}? 'form-control fieldError' : 'form-control'" />
             <p th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}">잘못된 입력값이 들어올때</p>
+          </div>
         </div>
         <div class="form-group" th:object="${reservation}">
           <label th:for="term" class="leftLabel">이용 시간(분)</label>
+          <div class="form-input">
             <input type="number" th:field="*{term}" class="form-control utility" placeholder="예약을 몇분 할지 입력하세요"
                    th:class="${#fields.hasErrors('term')}? 'form-control fieldError' : 'form-control'" />
             <p th:if="${#fields.hasErrors('term')}" th:errors="*{term}">잘못된 입력값이 들어올때</p>
+          </div>
         </div>
         <div class="form-group" th:object="${reservation}">
             <label th:for="term" class="leftLabel">요청사항</label>
