@@ -8,6 +8,7 @@
 </head>
 <body>
 <nav id='navi' th:replace="fragments/common :: menu"></nav>
+<h3 class="title">테이블 좌석 수 수정</h3>
 <form th:object="${table}" method="post">
   <div class="form-group">
     <label th:for="number">테이블 번호</label>
@@ -18,7 +19,7 @@
     <label th:for="seats">테이블 좌석 수</label>
     <input type="text" th:field="*{seats}" class="form-control" placeholder="변경할 좌석 수를 입력하세요"
            th:class="${#fields.hasErrors('seats')}? 'form-control fieldError' : 'form-control'" />
-    <p th:if="${#fields.hasErrors('seats')}" th:errors="*{seats}">입력값이 없음</p>
+    <p class="error" th:if="${#fields.hasErrors('seats')}" th:errors="*{seats}">입력값이 없음</p>
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
