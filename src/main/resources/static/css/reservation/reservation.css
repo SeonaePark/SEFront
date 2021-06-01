@@ -85,4 +85,19 @@
 .form-control{
     width: 200px;
 }
-
+.statistic{
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 30px;
+}
+.statisticLabel{
+    display: flex;
+    border-bottom: 1px solid black;
+}
+.statisticLabel label{
+    width: 200px;
+    border-right: 1px solid black;
+}
+.statisticLabel p{
+    padding-left: 15px;
+}
