@@ -1,7 +1,11 @@
-
-
+.title{
+    font-size: 30px;
+    font-weight: 800;
+    background-color: rgba(124, 118, 121, 0.185);
+    padding: 20px;
+    margin-top: 30px;
+}
   .box {
-      z-index: 1;
       float:left;
       width:1530px;
       height:545px;
@@ -15,4 +19,11 @@
       height:100px;
       right: 100px;
       top: 300px;
+  }
+  #map{
+      margin-top: 50px;
+  }
+
+  .search{
+      font-size: 25px;
   }

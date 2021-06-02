@@ -20,12 +20,48 @@
                 <label>날짜 및 시간</label>
                 <p class="statisticText" th:text="|${statistic.startTime} 부터 ${statistic.endTime} 까지|">검색 시간</p>
             </div>
-            <div class="statisticLabel">
-                <label>검색된 총 예약 수</label>
-                <p class="statisticText" th:text="|${count}|">통계</p>
-            </div>
+<!--            <div class="statisticLabel">-->
+<!--                <label>검색된 총 예약 수</label>-->
+<!--                <p class="statisticText" th:text="|${count}|">통계</p>-->
+<!--            </div>-->
+
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            <script type="text/javascript" th:inline="javascript">
+                google.charts.load('current', {'packages':['bar']});
+                google.charts.setOnLoadCallback(drawChart);
+
+                function drawChart() {
+                    var data = google.visualization.arrayToDataTable([
+                        ['테이블 예약', '예약 수'],
+                        ['테이블', [[${count}]]]
+                    ]);
+                    var options = {
+                        chart: {
+                            title: '테이블 사용 통계',
+                            subtitle: 'SE restaurant statistic',
+                        },
+                        bars: 'horizontal',
+                        hAxis: {
+                            viewWindowMode:'explicit',
+                            viewWindow: {
+                                min: 0,
+                                max: 10
+                            }
+                        },
+                        backgroundColor:'rgb(243, 240, 235)'
+                    };
+
+                    var chart = new google.charts.Bar(document.getElementById('barchart_material'));
+
+                    chart.draw(data, google.charts.Bar.convertOptions(options));
+                }
+            </script>
         </form>
     </div> <!-- /container -->
 </section>
+</head>
+<div class="chart">
+    <div id="barchart_material" style="width: 1000px; height: 150px; "></div>
+</div>
 </body>
 </html>
