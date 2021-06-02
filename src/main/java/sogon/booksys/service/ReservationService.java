@@ -10,7 +10,6 @@ import sogon.booksys.exception.DuplicateReserveException;
 import sogon.booksys.exception.SeatExcessException;
 import sogon.booksys.repository.UserRepository;
 import sogon.booksys.repository.ReservationRepository;
-import sogon.booksys.repository.TableRepository;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -160,33 +159,35 @@ public class ReservationService {
     }
 
     //테이블이 null일 때 자동으로 배정해주는 메소드
-    private Table judgeAndAssignTable(Long tableId, LocalDateTime time, int term, int userCount) {
+    private Table judgeAndAssignTable(Long tableId, LocalDateTime time, int term, int userCount){
         Table table = new Table();
+        RuntimeException lastException = new RuntimeException();
 
         if(tableId != null){
             table = tableService.findById(tableId).get();
             List<Reservation> allTable = reservationRepository.findAllByTable(table);
 
             judgeDuplicateTime(time, term, allTable);
+            judgeTableCount(userCount, table);
         } else {
             List<Table> all = tableService.findAllOrderByNumber();
             for (Table findTable : all) {
                 List<Reservation> allReservation = reservationRepository.findAllByTable(findTable);
                 try {
                     judgeDuplicateTime(time, term, allReservation);
+                    judgeTableCount(userCount, findTable);
                     tableId = findTable.getId();
                     table = findTable;
                     break;
-                } catch (Exception e){
+                } catch (RuntimeException e){
+                    lastException = e;
                 }
             }
             if(tableId == null){
-                throw new DuplicateReserveException(time.getHour() + "시 " + time.getMinute() + "분부터 "
-                        + time.plusMinutes(term).getHour() + "시 " + time.plusMinutes(term).getMinute() + "분까지 비어있는 테이블이 없습니다.");
+                throw lastException;
             }
         }
 
-        judgeTableCount(userCount, table);
         return table;
     }
 
