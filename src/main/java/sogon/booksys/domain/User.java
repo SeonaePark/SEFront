@@ -64,4 +64,9 @@ public class User {
         return this.role.getKey();
     }
 
+    //연관관계 메서드
+    public void deleteReservation(Reservation reservation){
+        this.reservations.remove(reservation);
+    }
+
 }

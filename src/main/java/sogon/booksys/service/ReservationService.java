@@ -120,8 +120,9 @@ public class ReservationService {
 
     @Transactional
     public void cancelReservation(Long reservationId){
-        Optional<Reservation> reservation = reservationRepository.findById(reservationId);
-        reservationRepository.delete(reservation.get());
+        Reservation reservation = reservationRepository.findById(reservationId).get();
+        reservationRepository.delete(reservation);
+        reservation.getUser().deleteReservation(reservation);
     }
 
     public int countTableBetweenDate(Table table, LocalDateTime start, LocalDateTime end){
