@@ -20,11 +20,12 @@ public class ReservationDto {
     @FutureOrPresent(message = "현재 시간 이후에 예약해야 합니다.")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime startTime;  //예약한 날짜 및 시간
+
     @FutureOrPresent(message = "현재 시간 이후에 예약해야 합니다.")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime closeTime;  //예약이 끝나는 날짜 및 시간
 
-    @Min(value = 1, message = "최소 1분 이상 입력해주세요.")
+    @Min(value = 30, message = "최소 30분 이상 입력해주세요.")
     private int term;
 
     @NotNull(message = "테이블을 선택해주세요.")

@@ -11,10 +11,19 @@
 <div class="title">통계</div>
 <section>
     <div class="container">
-        <form role="form" action="/statistic" method="post">
-            <p th:text="|테이블 넘버 = ${table.number}|">테이블 넘버</p>
-            <p th:text="|${statistic.startTime} 부터 ${statistic.endTime} 까지 검색|">검색 시간</p>
-            <p th:text="|검색된 총 예약 수 = ${count}|">통계</p>
+        <form role="form" action="/statistic" method="post" class="statistic">
+            <div class="statisticLabel">
+                <label>테이블 넘버</label>
+                <p class="statisticText" th:text="|${table.number}|">테이블 넘버</p>
+            </div>
+            <div class="statisticLabel">
+                <label>날짜 및 시간</label>
+                <p class="statisticText" th:text="|${statistic.startTime} 부터 ${statistic.endTime} 까지|">검색 시간</p>
+            </div>
+            <div class="statisticLabel">
+                <label>검색된 총 예약 수</label>
+                <p class="statisticText" th:text="|${count}|">통계</p>
+            </div>
         </form>
     </div> <!-- /container -->
 </section>
