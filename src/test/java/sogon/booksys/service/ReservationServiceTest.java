@@ -259,4 +259,65 @@ class ReservationServiceTest {
         assertEquals(count, 2);
     }
 
+    @Test
+    void 테이블_자동배정_테스트(){
+        //given
+        User user = new User();
+        Table table1 = Table.builder().number(1).seats(4).build();
+        Table table2 = Table.builder().number(2).seats(5).build();
+        LocalDateTime time = LocalDateTime.now();
+        int term = 30;
+
+        //when
+        userRepository.save(user);
+        tableRepository.save(table1);
+        tableRepository.save(table2);
+        reservationService.reserve(user.getId(), table1.getId(), time, term, 4);
+
+        Long reserveId = reservationService.reserve(user.getId(), null, time, term, 4);
+
+        //then
+        Reservation reservation = reservationService.findById(reserveId).get();
+        assertEquals(table2, reservation.getTable());
+    }
+
+    @Test
+    void 테이블_자동배정_빈테이블이_없을때(){
+        //given
+        User user = new User();
+        Table table1 = Table.builder().number(1).seats(4).build();
+        Table table2 = Table.builder().number(2).seats(5).build();
+        LocalDateTime time = LocalDateTime.now();
+        int term = 30;
+
+        //when
+        userRepository.save(user);
+        tableRepository.save(table1);
+        tableRepository.save(table2);
+        reservationService.reserve(user.getId(), table1.getId(), time, term, 4);
+        reservationService.reserve(user.getId(), table2.getId(), time, term, 4);
+
+        //then
+        assertThrows(DuplicateReserveException.class, ()->reservationService.reserve(user.getId(), null, time, term, 4));
+    }
+
+    @Test
+    void 테이블_자동배정_인원초과일때(){
+        //given
+        User user = new User();
+        Table table1 = Table.builder().number(1).seats(4).build();
+        Table table2 = Table.builder().number(2).seats(5).build();
+        LocalDateTime time = LocalDateTime.now();
+        int term = 30;
+
+        //when
+        userRepository.save(user);
+        tableRepository.save(table1);
+        tableRepository.save(table2);
+        reservationService.reserve(user.getId(), table1.getId(), time, term, 4);
+
+        //then
+        assertThrows(SeatExcessException.class, () -> reservationService.reserve(user.getId(), null, time, term, 50));
+    }
+
 }

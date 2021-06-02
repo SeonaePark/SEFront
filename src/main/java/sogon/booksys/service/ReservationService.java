@@ -24,18 +24,14 @@ public class ReservationService {
 
     private final UserRepository userRepository;
     private final ReservationRepository reservationRepository;
-    private final TableRepository tableRepository;
+    private final TableService tableService;
 
     //예약 (시작 시간과 몇 분 예약할지를 인자로 받음)
     @Transactional
     public Long reserve(Long userId, Long tableId, LocalDateTime time, int term, int userCount){
         User user = userRepository.findById(userId).get();
-        Table table = tableRepository.findById(tableId).get();
 
-        List<Reservation> allTable = reservationRepository.findAllByTable(table);
-
-        judgeTableCount(userCount, table);
-        judgeDuplicateTime(time, term, allTable);
+        Table table = judgeAndAssignTable(tableId, time, term, userCount);
 
         Reservation reservation = Reservation.createReservation(user, table, time, term, userCount);
         reservationRepository.save(reservation);
@@ -46,13 +42,9 @@ public class ReservationService {
     @Transactional
     public Long reserve(Long userId, Long tableId, LocalDateTime startTime, LocalDateTime closeTime, int userCount){
         User user = userRepository.findById(userId).get();
-        Table table = tableRepository.findById(tableId).get();
         int term = (int) ChronoUnit.MINUTES.between(startTime, closeTime);
 
-        List<Reservation> allTable = reservationRepository.findAllByTable(table);
-
-        judgeTableCount(userCount, table);
-        judgeDuplicateTime(startTime, term, allTable);
+        Table table = judgeAndAssignTable(tableId, startTime, term, userCount);
 
         Reservation reservation = Reservation.createReservation(user, table, startTime, term, userCount);
         reservationRepository.save(reservation);
@@ -67,7 +59,7 @@ public class ReservationService {
         LocalDateTime closeTime = reservation.getCloseTime();
         int term = (int)ChronoUnit.MINUTES.between(startTime, closeTime);
 
-        Table newTable = tableRepository.findById(newTableId).get();
+        Table newTable = tableService.findById(newTableId).get();
         List<Reservation> allTable = reservationRepository.findAllByTable(newTable);
 
         judgeTableCount(reservation.getCovers(), newTable);
@@ -154,7 +146,7 @@ public class ReservationService {
             LocalDateTime arrivalTime = reservation.getStartTime();
             LocalDateTime closeTime = reservation.getCloseTime();
 
-            if(time.isAfter(arrivalTime) && time.isBefore(closeTime)){
+            if(time.isAfter(arrivalTime) && time.isBefore(closeTime) || time.isEqual(arrivalTime) || time.isEqual(closeTime)){
                 throw new DuplicateReserveException(arrivalTime.getHour() + "시 " + arrivalTime.getMinute() + "분부터 "
                         + closeTime.getHour() + "시 " + closeTime.getMinute() + "분 까지는 " + "이미 예약된 시간입니다.");
             } else if(time.plusMinutes(term).isAfter(arrivalTime) && time.plusMinutes(term).isBefore(closeTime)){
@@ -165,6 +157,37 @@ public class ReservationService {
                         + closeTime.getHour() + "시 " + closeTime.getMinute() + "분 까지는 " + "이미 예약된 시간입니다.");
             }
         }
+    }
+
+    //테이블이 null일 때 자동으로 배정해주는 메소드
+    private Table judgeAndAssignTable(Long tableId, LocalDateTime time, int term, int userCount) {
+        Table table = new Table();
+
+        if(tableId != null){
+            table = tableService.findById(tableId).get();
+            List<Reservation> allTable = reservationRepository.findAllByTable(table);
+
+            judgeDuplicateTime(time, term, allTable);
+        } else {
+            List<Table> all = tableService.findAllOrderByNumber();
+            for (Table findTable : all) {
+                List<Reservation> allReservation = reservationRepository.findAllByTable(findTable);
+                try {
+                    judgeDuplicateTime(time, term, allReservation);
+                    tableId = findTable.getId();
+                    table = findTable;
+                    break;
+                } catch (Exception e){
+                }
+            }
+            if(tableId == null){
+                throw new DuplicateReserveException(time.getHour() + "시 " + time.getMinute() + "분부터 "
+                        + time.plusMinutes(term).getHour() + "시 " + time.plusMinutes(term).getMinute() + "분까지 비어있는 테이블이 없습니다.");
+            }
+        }
+
+        judgeTableCount(userCount, table);
+        return table;
     }
 
 }

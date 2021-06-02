@@ -28,7 +28,6 @@ public class ReservationDto {
     @Min(value = 30, message = "최소 30분 이상 입력해주세요.")
     private int term;
 
-    @NotNull(message = "테이블을 선택해주세요.")
     private Long tableId;
 
     //비즈니스로직
