@@ -60,7 +60,6 @@ public class ReservationController {
     public String reserve(@Valid @ModelAttribute("reservation") ReservationDto reservation,
                           BindingResult result,
                           @ModelAttribute("user") UserDto user,
-                          @RequestParam("tableId") Long tableId,
                           Model model){
         List<Table> allTables = tableService.findAllOrderByNumber();
         model.addAttribute("tables", allTables);
@@ -71,7 +70,7 @@ public class ReservationController {
 
         reservation.setCloseTime(reservation.getTerm());
         try {
-            reservationService.reserve(user.getId(), tableId, reservation.getStartTime(),
+            reservationService.reserve(user.getId(), reservation.getTableId(), reservation.getStartTime(),
                     reservation.getCloseTime(), reservation.getCovers());
         } catch (DuplicateReserveException e){
             result.rejectValue("startTime", "fieldError", e.getMessage());

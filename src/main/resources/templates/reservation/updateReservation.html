@@ -21,13 +21,13 @@
         <label for="table" class="leftLabel">예약 테이블 번호</label>
         <select th:field="*{tableId}" id="table" class="form-control tableN">
             <th:block th:each="table : ${tables}">
-                <option th:if="${table.id == reservation.tableId}"
+                <option th:if="${table.id.equals(reservation.tableId)}"
                         th:value="${table.id}"
                         th:text="|${table.number} (현재 예약된 테이블 번호)|"
                         th:selected />
-                <option th:unless="${table.id == reservation.tableId}"
+                <option th:unless="${table.id.equals(reservation.tableId)}"
                         th:value="${table.id}"
-                        th:text="|${table.number}|" />
+                        th:text="${table.number}" />
             </th:block>
         </select>
     </div>
